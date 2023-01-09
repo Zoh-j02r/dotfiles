@@ -1,0 +1,119 @@
+text: &text Iosevka Nerd Font:pixelsize=12
+icon: &icon Iosevka Nerd Font:pixelsize=16
+underline: &underline {underline: { size: 1, color: 6C7D9CFF}}
+        # SOLVE: fix yambar stops updating after sometime
+bar:
+  height: 32
+  location: top
+  spacing: 12
+  margin: 8
+  font: *text 
+  foreground: B3C4E0FF
+  background: 0E0B16FF
+  border:
+    bottom-width: 1
+    color: 6C7D9CFF
+  left:
+    - i3:
+        sort: ascending
+        anchors: 
+          - string: &i3_common {margin: 10, on-click: "swaymsg --quiet workspace {name}"}
+          - string: &default {<<: *i3_common, text: "{name}"}
+          - focused: &focused
+              deco: {stack: [ *underline]}
+          - invisible: &invisible {foreground: F9F9F9FF}
+          - urgent: &urgent
+              foreground: B3C4E0FF
+              deco: {stack: [background: {color: 32ED4FFF}, <<:  *underline]}
+          - map: &i3_mode
+              default:
+                - string:
+                    margin: 5
+                    text: "{mode}"
+                    deco: {background: {color: 32ED4FFF}}
+                - empty: {right-margin: 7}
+              conditions:
+                mode == default: {empty: {}}
+        content:
+          "":
+            map:
+              conditions:
+                state == focused:   {string: {<<: [*default, *focused]}}
+                state == unfocused: {string: {<<: *default}}
+                state == invisible: {string: {<<: [*default, *invisible]}}
+                state == urgent:    {string: {<<: [*default, *urgent]}}
+  right:
+    - network:
+        name: wlp1s0
+        poll-interval: 1000
+        content:
+          map:
+            default: {string: {text:  , font: *icon, foreground: F9F9F9FF}}
+            conditions:
+        # SOLVE: add a more representative icon
+              state == down: {string: {text:  , font: *icon, foreground: B30039FF}}
+              state == up:
+        # SOLVE: add color change based on signal quality
+                - string: {text: "{ssid}",right-margin: 5}
+                - string: {text:  ,font: *icon}
+    - cpu:
+        content:
+          map:
+            conditions:
+              id < 0:
+
+        # SOLVE: add color change based on processing percentage
+                - string: {text: "{cpu}%",right-margin: 5}
+                - string: {text:  , font: *icon}
+    - mem:
+          interval: 1500
+          content:
+            - string: {text: "{used:mb} MB",right-margin: 5}
+            - string: {text:  ,font: *icon}
+    - backlight:
+        name: amdgpu_bl0
+        content: 
+          - string: {text: "{percent}%",right-margin: 5}
+          - string: {text:  , font: *icon}
+    - battery:
+        # SOLVE: fix energy going above a hundred percent
+        name: BAT0
+        poll-interval: 30
+        anchors:
+          discharging: &discharging
+            list:
+              items:
+                - string: {text: "{capacity}%",right-margin: 5}
+                - ramp:
+                    tag: capacity
+                    items:
+                      - string: {text:  , foreground: B30039FF, font: *icon}
+                      - string: {text:  , foreground: E69200FF, font: *icon}
+                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
+                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
+                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
+                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
+                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
+                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
+                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
+                      - string: {text:  , foreground: 58BF70FF, font: *icon}
+        content:
+          map:
+            conditions:
+              state == unknown:
+                <<: *discharging
+              state == discharging:
+                <<: *discharging
+              state == charging:
+                - string: {text: "{capacity}%",right-margin: 5}
+                - string: {text:  , foreground: 51F069FF, font: *icon}
+              state == full:
+                - string: {text: "{capacity}%",right-margin: 5}
+                - string: {text:  , foreground: 32ED4FFF , font: *icon}
+    - clock:
+        time-format: "%H:%M"
+        content:
+          - string: {text: "{date}",right-margin: 5}
+          - string: {text:  , font: *icon,right-margin: 15}
+          - string: {text: "{time}",right-margin: 5}
+          - string: {text:  , font: *icon,right-margin: 10}
