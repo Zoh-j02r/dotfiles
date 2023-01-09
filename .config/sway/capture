@@ -1,0 +1,3 @@
+	# SOLVE: add a better filename identity
+grim -g "$(slurp)" ~/Image/Screencapture/$(date +"%H:%M:")$(shuf -i 000-999999 -n 1).png
+	# SOLVE: add a video option
