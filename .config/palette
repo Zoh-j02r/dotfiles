@@ -1,0 +1,92 @@
+#!/bin/sh
+
+# Name of color variables
+c=("bl" "rd" "gr" "yw" "bu" "mg" "cy" "wh")
+
+# Name of misc colors variables
+m=("bg_0" "bg_1" "bg_2" "bg_3" "hg_c" "wr_0" "fg_0" "fg_1")
+
+	# SOLVE: change blue and magenta color
+
+	# This is the main palette of the system
+	# QUESTION: is there a better way to user set colors?
+# Misc palette
+b=("#0E0B16" "#171322" "#211C2E" "#322C45" "#120033" "#70F18F" "#455574" "#6C7D9C") 
+# High-constrast palette
+h=("#09070F" "#F0004A" "#44D62C" "#FADF00" "#2891B7" "#CF49C2" "#32ED4F" "#B3C4E0")
+# Normal palette                                                       
+l=("#221B36" "#FF427C" "#69FF47" "#FFE722" "#42AED5" "#D664CD" "#51F069" "#F9F9F9")
+# Low-bright palette                                                   
+d=("#0C0E15" "#B30039" "#34AE53" "#E69200" "#1C4A6E" "#7542ED" "#58BF70" "#506080")
+
+	# QUESTION: is there a better way of declare configuration directory?
+config_dir="/home/Zoh/.config"
+
+files=("$config_dir/sway/config" "$config_dir/yambar/config.yml" "$config_dir/zathura/zathurarc" 
+ "$config_dir/imv/config" "$config_dir/swaynag/config" "$config_dir/swaylock/config" "$config_dir/foot/foot.ini")
+
+program=("sway" "yambar" "zathura" "imv" "swaynag" "swaylock" "foot")
+	# MISSING: nvim, luakit, cmus, armcord
+
+# Sets programs that uses hex-code instead of hex-color 
+no_hex=("yambar" "imv" "foot" "swaynag" "swaylock")
+# Set programs where setting alpha channel is not obligatory
+no_alpha=("imv" "foot" "swaynag" "swaylock")
+
+set_color_type() {
+	# SOLVE: change function for a smaller option
+	if [[ " ${no_hex[*]} " =~ " $1 " ]]; then
+		color=false
+	else
+		color=true
+	fi
+	
+	if [[ " ${no_alpha[*]} " =~ " $1 " ]]; then
+		alpha=""
+	else
+		alpha="FF"
+	fi
+}
+
+for p in "${!program[@]}"; do
+	set_color_type "${program[$p]}"
+	# SOLVE: add a feedback text to changes being made
+	case $1 in
+		"revert")
+			for i in "${!c[@]}"; do
+				if $color ; then
+	# SOLVE: add a way to declare a variable inside substring expansion
+					printf "%s" "s/${l[$i]}/${c[$i]}_l/;" 
+					printf "%s" "s/${d[$i]}/${c[$i]}_d/;" 
+					printf "%s" "s/${h[$i]}/${c[$i]}_h/;" 
+					printf "%s" "s/${b[$i]}/${m[$i]}/;"
+				else
+					printf "%s" "s/${l[$i]:1}$alpha/${c[$i]}_l/;" 
+					printf "%s" "s/${d[$i]:1}$alpha/${c[$i]}_d/;" 
+					printf "%s" "s/${h[$i]:1}$alpha/${c[$i]}_h/;" 
+					printf "%s" "s/${b[$i]:1}$alpha/${m[$i]}/;"
+				fi
+			done
+		;;
+		"apply")
+			for i in "${!c[@]}"; do
+				if $color ; then
+					printf "%s" "s/${c[$i]}_l/${l[$i]}/;" 
+					printf "%s" "s/${c[$i]}_d/${d[$i]}/;" 
+					printf "%s" "s/${c[$i]}_h/${h[$i]}/;" 
+					printf "%s" "s/${m[$i]}/${b[$i]}/;"
+				else
+					printf "%s" "s/${c[$i]}_l/${l[$i]:1}$alpha/;" 
+					printf "%s" "s/${c[$i]}_d/${d[$i]:1}$alpha/;" 
+					printf "%s" "s/${c[$i]}_h/${h[$i]:1}$alpha/;" 
+					printf "%s" "s/${m[$i]}/${b[$i]:1}$alpha/;"
+				fi
+			done
+		;;
+#		*)
+#	# SOLVE: add errors using signals
+#			break
+#		;;
+	esac | { read -r var; sed -e ${var%?} -i "${files[$p]}"; } 
+
+done 
