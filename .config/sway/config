@@ -12,7 +12,7 @@ gaps outer 3
 default_border pixel 1
 default_floating_border pixel 1 
 
-set $bc #6C7D9C
+set $bc #455574
 set $bcu #FF427C
 
 client.focused $bc $bc $bc $bc  
@@ -28,7 +28,7 @@ set $right l
 
 # Set background 
 	# SOLVE: add a cool wallpaper (optional)
-output "*" bg #09070F solid_color
+output "*" bg #211C2E solid_color
 
 # Lockscreen decoration
 exec swayidle -w timeout 300 'swaylock' \

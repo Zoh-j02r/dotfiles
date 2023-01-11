@@ -1,6 +1,6 @@
 text: &text Iosevka Nerd Font:pixelsize=12
 icon: &icon Iosevka Nerd Font:pixelsize=16
-underline: &underline {underline: { size: 1, color: 6C7D9CFF}}
+underline: &underline {underline: { size: 1, color: 455574FF}}
         # SOLVE: fix yambar stops updating after sometime
 bar:
   height: 32
@@ -12,7 +12,7 @@ bar:
   background: 0E0B16FF
   border:
     bottom-width: 1
-    color: 6C7D9CFF
+    color: 455574FF
   left:
     - i3:
         sort: ascending
@@ -23,14 +23,14 @@ bar:
               deco: {stack: [ *underline]}
           - invisible: &invisible {foreground: F9F9F9FF}
           - urgent: &urgent
-              foreground: B3C4E0FF
-              deco: {stack: [background: {color: 32ED4FFF}, <<:  *underline]}
+              foreground: 6C7D9CFF
+              deco: {stack: [background: {color: 10E080FF}, <<:  *underline]}
           - map: &i3_mode
               default:
                 - string:
                     margin: 5
                     text: "{mode}"
-                    deco: {background: {color: 32ED4FFF}}
+                    deco: {background: {color: 10E080FF}}
                 - empty: {right-margin: 7}
               conditions:
                 mode == default: {empty: {}}
@@ -89,14 +89,14 @@ bar:
                     items:
                       - string: {text:  , foreground: B30039FF, font: *icon}
                       - string: {text:  , foreground: E69200FF, font: *icon}
-                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
-                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
-                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
-                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
-                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
-                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
-                      - string: {text:  , foreground: 58BF70FF, font: *icon} 
-                      - string: {text:  , foreground: 58BF70FF, font: *icon}
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon}
         content:
           map:
             conditions:
@@ -109,7 +109,7 @@ bar:
                 - string: {text:  , foreground: 51F069FF, font: *icon}
               state == full:
                 - string: {text: "{capacity}%",right-margin: 5}
-                - string: {text:  , foreground: 32ED4FFF , font: *icon}
+                - string: {text:  , foreground: 10E080FF , font: *icon}
     - clock:
         time-format: "%H:%M"
         content:

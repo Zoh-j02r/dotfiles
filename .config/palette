@@ -1,23 +1,16 @@
 #!/bin/sh
 
 # Name of color variables
-c=("bl" "rd" "gr" "yw" "bu" "mg" "cy" "wh")
-
+c=("bl" "rd" "gr" "yw" "bu" "lg" "cy" "wh")
 # Name of misc colors variables
-m=("bg_0" "bg_1" "bg_2" "bg_3" "hg_c" "wr_0" "fg_0" "fg_1")
-
-	# SOLVE: change blue and magenta color
-
-	# This is the main palette of the system
-	# QUESTION: is there a better way to user set colors?
+m=("bg_0" "bg_1" "bg_2" "bg_3" "hg_c" "fg_0" "fg_1" "fg_2")
+# This is the main palette of the system
+# High-bright palette                                                      
+h=("#221B36" "#FF427C" "#69FF47" "#FFE722" "#42AED5" "#C1FE00" "#10E080" "#F9F9F9")
+# Low-bright palette                                           
+l=("#0C0E15" "#B30039" "#44D62C" "#E69200" "#1060AE" "#96c300" "#32ED4F" "#6C7D9C")
 # Misc palette
-b=("#0E0B16" "#171322" "#211C2E" "#322C45" "#120033" "#70F18F" "#455574" "#6C7D9C") 
-# High-constrast palette
-h=("#09070F" "#F0004A" "#44D62C" "#FADF00" "#2891B7" "#CF49C2" "#32ED4F" "#B3C4E0")
-# Normal palette                                                       
-l=("#221B36" "#FF427C" "#69FF47" "#FFE722" "#42AED5" "#D664CD" "#51F069" "#F9F9F9")
-# Low-bright palette                                                   
-d=("#0C0E15" "#B30039" "#34AE53" "#E69200" "#1C4A6E" "#7542ED" "#58BF70" "#506080")
+b=("#0E0B16" "#171322" "#211C2E" "#322C45" "#120033" "#B3C4E0" "#455574" "#6E8EC3") 
 
 	# QUESTION: is there a better way of declare configuration directory?
 config_dir="/home/Zoh/.config"
@@ -50,19 +43,17 @@ set_color_type() {
 
 for p in "${!program[@]}"; do
 	set_color_type "${program[$p]}"
-	# SOLVE: add a feedback text to changes being made
+# SOLVE: add a feedback text to changes being made
 	case $1 in
 		"revert")
 			for i in "${!c[@]}"; do
 				if $color ; then
 	# SOLVE: add a way to declare a variable inside substring expansion
 					printf "%s" "s/${l[$i]}/${c[$i]}_l/;" 
-					printf "%s" "s/${d[$i]}/${c[$i]}_d/;" 
 					printf "%s" "s/${h[$i]}/${c[$i]}_h/;" 
 					printf "%s" "s/${b[$i]}/${m[$i]}/;"
 				else
 					printf "%s" "s/${l[$i]:1}$alpha/${c[$i]}_l/;" 
-					printf "%s" "s/${d[$i]:1}$alpha/${c[$i]}_d/;" 
 					printf "%s" "s/${h[$i]:1}$alpha/${c[$i]}_h/;" 
 					printf "%s" "s/${b[$i]:1}$alpha/${m[$i]}/;"
 				fi
@@ -72,21 +63,18 @@ for p in "${!program[@]}"; do
 			for i in "${!c[@]}"; do
 				if $color ; then
 					printf "%s" "s/${c[$i]}_l/${l[$i]}/;" 
-					printf "%s" "s/${c[$i]}_d/${d[$i]}/;" 
 					printf "%s" "s/${c[$i]}_h/${h[$i]}/;" 
 					printf "%s" "s/${m[$i]}/${b[$i]}/;"
 				else
 					printf "%s" "s/${c[$i]}_l/${l[$i]:1}$alpha/;" 
-					printf "%s" "s/${c[$i]}_d/${d[$i]:1}$alpha/;" 
 					printf "%s" "s/${c[$i]}_h/${h[$i]:1}$alpha/;" 
 					printf "%s" "s/${m[$i]}/${b[$i]:1}$alpha/;"
 				fi
 			done
 		;;
-#		*)
-#	# SOLVE: add errors using signals
-#			break
-#		;;
+		*)
+	# SOLVE: add errors using signals
+			break
+		;;
 	esac | { read -r var; sed -e ${var%?} -i "${files[$p]}"; } 
-
 done 
