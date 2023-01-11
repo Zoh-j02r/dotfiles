@@ -1,0 +1,11 @@
+require("core.options")
+require("core.keymaps")
+require("core.coloring")
+require("plugins.packer")
+require("plugins.lualine")
+require("plugins.colorizer")
+require("plugins.bufferline")
+require("plugins.blankline")
+require("plugins.chadtree")
+require("plugins.treesitter")
+
