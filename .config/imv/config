@@ -1,9 +1,9 @@
 [options]
 background = 0E0B16
 overlay = true
-overlay_font = Iosevka Nerd Font:10
-overlay_text = \"${imv_current_file}\" "[$imv_current_index |$imv_file_count]"  
-overlay_text_color = 6C7D9C 
+overlay_font = Iosevka Nerd Font:12
+overlay_text = ${imv_current_file} "[$imv_current_index |$imv_file_count]"  
+overlay_text_color = B3C4E0
 overlay_background_color = 171322
 overlay_background_alpha = FF
 overlay_position_bottom = true

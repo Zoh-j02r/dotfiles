@@ -8,4 +8,3 @@ require("plugins.bufferline")
 require("plugins.blankline")
 require("plugins.chadtree")
 require("plugins.treesitter")
-
