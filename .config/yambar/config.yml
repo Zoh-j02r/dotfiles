@@ -3,9 +3,9 @@ icon: &icon Iosevka Nerd Font:pixelsize=16
 underline: &underline {underline: { size: 1, color: 455574FF}}
         # SOLVE: fix yambar stops updating after sometime
 bar:
-  height: 32
+  height: 31 
   location: top
-  spacing: 12
+  spacing: 16
   margin: 8
   font: *text 
   foreground: B3C4E0FF
@@ -114,6 +114,6 @@ bar:
         time-format: "%H:%M"
         content:
           - string: {text: "{date}",right-margin: 5}
-          - string: {text:  , font: *icon,right-margin: 15}
+          - string: {text:  , font: *icon,right-margin: 32}
           - string: {text: "{time}",right-margin: 5}
           - string: {text:  , font: *icon,right-margin: 10}
