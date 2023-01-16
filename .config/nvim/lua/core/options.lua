@@ -10,5 +10,6 @@ vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
 vim.opt.guicursor = ""
 vim.opt.showbreak=" +++ "
+vim.opt.cmdheight = 0
 vim.cmd[[hi Normal guibg=NONE ctermbg=NONE]]
 vim.cmd[[hi EndOfBuffer guibg=NONE ctermbg=NONE]]

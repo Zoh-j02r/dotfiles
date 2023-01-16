@@ -2,7 +2,7 @@ local c = require('palette')
 local chrome = require('chrome')
 local downloads = require('downloads')
 
-downloads.default_dir = os.getenv("HOME") .. "/Download"
+downloads.default_dir = os.getenv("HOME") .. "/download"
 	-- SOLVE: add custom module to use instead of viewpdf
 	-- SOLVE: add style to error_page and document_page
 	-- SOLVE: Find a way to store this string as a html file

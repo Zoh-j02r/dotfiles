@@ -48,6 +48,7 @@ hl.common = {
 
 	Directory = {fg = c.bu1},
 
+	MsgArea = {fg=c.fg2, bg=c.bg1},
 	ErrorMsg = {fg = c.rd1, fmt = "bold"},
 	WarningMsg = {fg = c.wrl, fmt = "bold"},
 	MoreMsg = {fg = c.bu0, fmt = "bold"},
