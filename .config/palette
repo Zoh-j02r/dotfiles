@@ -1,77 +1,154 @@
-#!/bin/sh
+#!/bin/bash
 
-# Name of color variables
-c=("bl" "rd" "gr" "yw" "bu" "lg" "cy" "wh")
-# Name of misc colors variables
-m=("bg_0" "bg_1" "bg_2" "bg_3" "hg_c" "fg_0" "fg_1" "fg_2")
-# This is the main palette of the system
-# High-bright palette                                                      
-h=("#221B36" "#FF427C" "#69FF47" "#FFE722" "#42AED5" "#C1FE00" "#10E080" "#F9F9F9")
-# Low-bright palette                                           
-l=("#0C0E15" "#B30039" "#44D62C" "#E69200" "#1060AE" "#96C300" "#32ED4F" "#6C7D9C")
-# Misc palette
-b=("#0E0B16" "#171322" "#211C2E" "#322C45" "#120033" "#B3C4E0" "#455574" "#6E8EC3") 
-
-
-files=("sway/config" "yambar/config.yml" "zathura/zathurarc" "nvim/lua/core/coloring/palette.lua" "luakit/palette.lua" "imv/config" "swaynag/config" "swaylock/config" "foot/foot.ini")
-
-program=("sway" "yambar" "zathura" "nvim" "luakit" "imv" "swaynag" "swaylock" "foot")
-	# MISSING: nvim, luakit, cmus, armcord
-
-# Sets programs that uses hex-code instead of hex-color 
-no_hex=("yambar" "imv" "foot" "swaynag" "swaylock")
-# Set programs where setting alpha channel is not obligatory
-no_alpha=("imv" "foot" "swaynag" "swaylock")
-
-set_color_type() {
-	# SOLVE: change function for a smaller option
-	if [[ " ${no_hex[*]} " =~ " $1 " ]]; then
-		color=false
-	else
-		color=true
-	fi
-	
-	if [[ " ${no_alpha[*]} " =~ " $1 " ]]; then
-		alpha=""
-	else
-		alpha="FF"
-	fi
+show_help() {
+	echo "Usage: palette [command] [args]"
+	echo
+	echo "  -h, --help	 				Show this message."
+	echo "  -s, --show					Show the current color palette."
+	echo "  -n, --new <palette>			        Create a new color palette."
+	echo "  -s, --set <palette> <color-id> <hex-color>	Set a new color to a palette."
+	echo "  -a, --apply <palette>	  			Apply changes to colors."
+	echo "  -r, --revert					Revert colors to default state."
+	echo "  -p, --profile					Save applied changes to palette folder."
+	echo 
 }
 
-for p in "${!program[@]}"; do
-	set_color_type "${program[$p]}"
-# SOLVE: add a feedback text to changes being made
+show_palette() {
+	echo "Showing colorscheme of palette: $1"
+	color_palette_get $1
+	echo '      H         L         M'
+	for p in {0..7}; do
+		hi=${Cp[$p]:1}
+		lo=${Cp[$(($p+8))]:1}
+		mi=${Cp[$(($p+16))]:1}
+		cargos=$(printf ";%d;%d;%d\n" 0x${hi:0:2} 0x${hi:2:2} 0x${hi:4:2})
+		cargo=$(printf ";%d;%d;%d\n" 0x${lo:0:2} 0x${lo:2:2} 0x${lo:4:2})
+		carg=$(printf ";%d;%d;%d\n" 0x${mi:0:2} 0x${mi:2:2} 0x${mi:4:2})
+		hexh='\033[48;2'"$cargos"'m'
+		hexl='\033[48;2'"$cargo"'m'
+		hexm='\033[48;2'"$carg"'m'
+		end='\033[0m'
+		bexm='\033[38;2;14;11;22m'
+		printf '   '${bexm}${hexh}${Cp[$p]}${end}
+		printf '   '${bexm}${hexl}${Cp[$(($p+8))]}${end}
+		printf '   '${bexm}${hexm}${Cp[$(($p+16))]}${end}'\n'
+	done
+}
+color_check() {
 	case $1 in
-		"revert")
-			for i in "${!c[@]}"; do
-				if $color ; then
-	# SOLVE: add a way to declare a variable inside substring expansion
-					printf "%s" "s/${l[$i]}/${c[$i]}_l/;" 
-					printf "%s" "s/${h[$i]}/${c[$i]}_h/;" 
-					printf "%s" "s/${b[$i]}/${m[$i]}/;"
-				else
-					printf "%s" "s/${l[$i]:1}$alpha/${c[$i]}_l/;" 
-					printf "%s" "s/${h[$i]:1}$alpha/${c[$i]}_h/;" 
-					printf "%s" "s/${b[$i]:1}$alpha/${m[$i]}/;"
+	'apply')
+		if grep -q 'fg_.0\|bg_.0\|.._l0\|.._h0' $2; then
+			k='0'
+			A=''
+		elif grep -q 'fg_.1FF\|bg_.1FF\|.._l1FF\|.._h1FF' $2; then
+			k='1'
+			A='FF'
+		elif grep -q 'fg_.1\|bg_.1\|.._l1\|.._h1' $2; then
+			k='1'
+			A=''
+		fi
+	;;
+	'revert')
+		if grep -q '#[0-9a-fA-F]\{6\}' $2; then
+			k='0'
+			A=''
+		elif grep -q '[0-9a-fA-F]\{6\}FF' $2; then
+			k='1'
+			A='FF'
+		elif grep -q '[0-9a-fA-F]\{6\}' $2; then
+			k='1'
+			A=''
+		fi
+	;;
+	esac
+}
+
+color_apply() {
+	for p in "${!files[@]}"; do
+		color_check apply ${files[$p]}
+			for i in "${!Ci[@]}"; do
+				cl=${Cp[$i]}$A 	
+				cs=${Ci[$i]}
+				printf "%s" "s/${cs}$k$A/${cl:$k}/;"
+			done | { read -r var; sed -e ${var%?} -i "${files[$p]}"; } 
+	done 
+}
+
+color_revert() {
+	for p in "${!files[@]}"; do
+		color_check revert ${files[$p]}
+			for i in "${!Ci[@]}"; do
+				cl=${Cp[$i]}$A
+				cs=${Ci[$i]}
+				printf "%s" "s/${cl:$k}/${cs}$k$A/;" 
+			done | { read -r var; sed -e ${var%?} -i "${files[$p]}"; } 
+	done 
+}
+
+color_palette_get() {
+	Cp=($(grep -Eo '#[0-9a-fA-F]{6}' ~/.local/share/palette/$1))
+}
+
+Ci=("bl_h" "rd_h" "gr_h" "yw_h" "bu_h" "lg_h" "cy_h" "wh_h" "bl_l" "rd_l" "gr_l" "yw_l"
+ "bu_l" "lg_l" "cy_l" "wh_l" "bg_0" "bg_1" "bg_2" "bg_3" "hg_c" "fg_0" "fg_1" "fg_2")
+
+
+	# MISSING: cmus, armcord
+
+files=("sway/config" "yambar/config.yml" "zathura/zathurarc" "nvim/lua/core/coloring/palette.lua"
+"luakit/palette.lua" "imv/config" "swaynag/config" "swaylock/config" "foot/foot.ini")
+
+if [[ ! -e ~/.local/share/palette ]]; then
+	mkdir -p ~/.local/share/palette
+	cp ./default ~/.local/share/palette/default
+fi
+
+color_palette_get default
+
+case $1 in
+	'help')
+		show_help	
+	;;
+	'show')
+		show_palette $2
+	;;
+	'new')
+		if [ -z "$2" ]; then 
+    			echo "No palette name supplied"
+			exit 1
+		else
+		#TODO: add a method to set default palette as current terminal colors
+			cp ~/.local/share/palette/default ~/.local/share/palette/$2
+		fi
+	;;
+	'set')
+		if [ -z "$2" ]; then 
+    			echo "No palette name supplied"
+			exit 1
+		else
+			color_palette_get $2
+			for p in "${!Ci[@]}"; do
+				if [ ${Ci[$p]} == $3 ]; then
+					echo ${Cp[$p]}
+					success=1
+					break
 				fi
 			done
-		;;
-		"apply")
-			for i in "${!c[@]}"; do
-				if $color ; then
-					printf "%s" "s/${c[$i]}_l/${l[$i]}/;" 
-					printf "%s" "s/${c[$i]}_h/${h[$i]}/;" 
-					printf "%s" "s/${m[$i]}/${b[$i]}/;"
-				else
-					printf "%s" "s/${c[$i]}_l/${l[$i]:1}$alpha/;" 
-					printf "%s" "s/${c[$i]}_h/${h[$i]:1}$alpha/;" 
-					printf "%s" "s/${m[$i]}/${b[$i]:1}$alpha/;"
-				fi
-			done
-		;;
-		*)
-	# SOLVE: add errors using signals
-			break
-		;;
-	esac | { read -r var; sed -e ${var%?} -i "${files[$p]}"; } 
-done 
+			if ! [ $success ]; then
+				echo 'Color identifier wrong or missing'
+			fi
+		fi
+	;;
+	'apply')
+		color_apply
+	;;
+	'revert')
+		color_revert
+	;;
+	'test')
+		echo 'hello I test stuff! :)'
+	;;
+	*)
+		echo 'Invalid option'
+	;;
+esac
