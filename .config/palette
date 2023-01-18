@@ -3,38 +3,85 @@
 show_help() {
 	echo "Usage: palette [command] [args]"
 	echo
-	echo "  -h, --help	 				Show this message."
-	echo "  -s, --show					Show the current color palette."
-	echo "  -n, --new <palette>			        Create a new color palette."
-	echo "  -s, --set <palette> <color-id> <hex-color>	Set a new color to a palette."
-	echo "  -a, --apply <palette>	  			Apply changes to colors."
-	echo "  -r, --revert					Revert colors to default state."
-	echo "  -p, --profile					Save applied changes to palette folder."
-	echo 
+	#TODO: add -- to commands
+	echo "  help						Show this message."
+	echo "  show						Show the current color palette."
+	echo "  new	<palette>			        Create a new color palette."
+	echo "  set 	<palette> <color-id> <hex-color>	Set a new color to a palette."
+	echo "  apply 	<palette> 				Apply changes to colors."
+	echo "  revert						Change hexcolors to color identifiers."
+	echo
 }
 
 show_palette() {
+	#TODO: if arguments are missing show available themes to be chosen.
 	echo "Showing colorscheme of palette: $1"
-	color_palette_get $1
 	echo '      H         L         M'
 	for p in {0..7}; do
+		# I feel sad when looking at this? the must be a better way
 		hi=${Cp[$p]:1}
 		lo=${Cp[$(($p+8))]:1}
 		mi=${Cp[$(($p+16))]:1}
-		cargos=$(printf ";%d;%d;%d\n" 0x${hi:0:2} 0x${hi:2:2} 0x${hi:4:2})
-		cargo=$(printf ";%d;%d;%d\n" 0x${lo:0:2} 0x${lo:2:2} 0x${lo:4:2})
-		carg=$(printf ";%d;%d;%d\n" 0x${mi:0:2} 0x${mi:2:2} 0x${mi:4:2})
-		hexh='\033[48;2'"$cargos"'m'
-		hexl='\033[48;2'"$cargo"'m'
-		hexm='\033[48;2'"$carg"'m'
-		end='\033[0m'
-		bexm='\033[38;2;14;11;22m'
-		printf '   '${bexm}${hexh}${Cp[$p]}${end}
-		printf '   '${bexm}${hexl}${Cp[$(($p+8))]}${end}
-		printf '   '${bexm}${hexm}${Cp[$(($p+16))]}${end}'\n'
+		chi=$(printf ";%d;%d;%d\n" 0x${hi:0:2} 0x${hi:2:2} 0x${hi:4:2})
+		clo=$(printf ";%d;%d;%d\n" 0x${lo:0:2} 0x${lo:2:2} 0x${lo:4:2})
+		cmi=$(printf ";%d;%d;%d\n" 0x${mi:0:2} 0x${mi:2:2} 0x${mi:4:2})
+		hh='\033[48;2'"$chi"'m'
+		hl='\033[48;2'"$clo"'m'
+		hm='\033[48;2'"$cmi"'m'
+		ed='\033[0m'
+		bm='\033[38;2;14;11;22m'
+		printf '   '${bm}${hh}${Cp[$p]}${ed}
+		printf '   '${bm}${hl}${Cp[$(($p+8))]}${ed}
+		printf '   '${bm}${hm}${Cp[$(($p+16))]}${ed}'\n'
 	done
 }
+
+create_palette() {
+	if [ -z "$1" ]; then 
+		echo "ERROR: No palette name supplied"
+		exit 1
+	else
+	#TODO: add a method to set default palette as current terminal colors.
+		cp ~/.local/share/palette/default ~/.local/share/palette/$1
+		echo "Palette named $1 created with success"
+	fi
+}
+
+set_palette() {
+	if [ -z "$1" ]; then 
+		echo 'ERROR: No palette name supplied'
+		echo 'Run "palette show" to see available colorschemes.'
+		exit 1
+	else
+		if echo " $3 "  | grep -q ' [0-9a-fA-F]\{6\} '; then
+			for p in "${!Ci[@]}"; do
+				if [ ${Ci[$p]} == $2 ]; then
+					success=1
+					cM=$p
+					break
+				fi
+			done
+				# SOLVE: is it possible to make a better test?
+			if ! [ $success ]; then
+				echo 'ERROR: Color identifier wrong or missing'
+				exit 1
+				#TODO: add a command to show color identifier names
+			else
+				color_revert $1
+				sed -e "s/${Cp[$cM]}/#$3/" -i ~/.local/share/palette/$1
+				color_apply $1
+			fi
+		else
+			echo 'ERROR: Color specified in wrong format'
+			echo 'Use hex-code format, E.g: 690420 not #690240.'
+			exit 1
+		fi
+	fi
+
+}
+
 color_check() {
+	# this function is depressing. Is there a better way?
 	case $1 in
 	'apply')
 		if grep -q 'fg_.0\|bg_.0\|.._l0\|.._h0' $2; then
@@ -63,7 +110,10 @@ color_check() {
 	esac
 }
 
+	# TODO: call function after set command runs successful
 color_apply() {
+	color_revert
+	color_palette_get $1
 	for p in "${!files[@]}"; do
 		color_check apply ${files[$p]}
 			for i in "${!Ci[@]}"; do
@@ -85,25 +135,33 @@ color_revert() {
 	done 
 }
 
+error() {
+	echo 'ERROR: unknown command "'"$1"'" for "palette"'
+	echo 'Run "palette help" for usage.'
+	exit 1
+}
+
 color_palette_get() {
-	Cp=($(grep -Eo '#[0-9a-fA-F]{6}' ~/.local/share/palette/$1))
+	if ! [ -z "$1" ]; then 
+		Cp=($(grep -Eo '#[0-9a-fA-F]{6}' ~/.local/share/palette/$1))
+	fi
 }
 
 Ci=("bl_h" "rd_h" "gr_h" "yw_h" "bu_h" "lg_h" "cy_h" "wh_h" "bl_l" "rd_l" "gr_l" "yw_l"
  "bu_l" "lg_l" "cy_l" "wh_l" "bg_0" "bg_1" "bg_2" "bg_3" "hg_c" "fg_0" "fg_1" "fg_2")
-
-
-	# MISSING: cmus, armcord
-
 files=("sway/config" "yambar/config.yml" "zathura/zathurarc" "nvim/lua/core/coloring/palette.lua"
 "luakit/palette.lua" "imv/config" "swaynag/config" "swaylock/config" "foot/foot.ini")
+	# MISSING: cmus, armcord
 
+	#TODO: add a better filecheck creating function
 if [[ ! -e ~/.local/share/palette ]]; then
 	mkdir -p ~/.local/share/palette
 	cp ./default ~/.local/share/palette/default
 fi
 
-color_palette_get default
+if [[ -e ~/.local/share/palette/$2 ]]; then
+	color_palette_get $2
+fi
 
 case $1 in
 	'help')
@@ -113,42 +171,19 @@ case $1 in
 		show_palette $2
 	;;
 	'new')
-		if [ -z "$2" ]; then 
-    			echo "No palette name supplied"
-			exit 1
-		else
-		#TODO: add a method to set default palette as current terminal colors
-			cp ~/.local/share/palette/default ~/.local/share/palette/$2
-		fi
+		create_palette $2
 	;;
 	'set')
-		if [ -z "$2" ]; then 
-    			echo "No palette name supplied"
-			exit 1
-		else
-			color_palette_get $2
-			for p in "${!Ci[@]}"; do
-				if [ ${Ci[$p]} == $3 ]; then
-					echo ${Cp[$p]}
-					success=1
-					break
-				fi
-			done
-			if ! [ $success ]; then
-				echo 'Color identifier wrong or missing'
-			fi
-		fi
+		set_palette $2 $3 $4
 	;;
 	'apply')
-		color_apply
+		color_apply $2
 	;;
 	'revert')
-		color_revert
-	;;
-	'test')
-		echo 'hello I test stuff! :)'
+		#TODO: add function to recognize which available theme is set.
+		color_revert $2
 	;;
 	*)
-		echo 'Invalid option'
+		error $1
 	;;
 esac
