@@ -1,6 +1,7 @@
 local c = require('palette')
 local chrome = require('chrome')
 local downloads = require('downloads')
+local adblock_chrome = require('adblock_chrome')
 
 downloads.default_dir = os.getenv("HOME") .. "/download"
 	-- SOLVE: add custom module to use instead of viewpdf
@@ -8,6 +9,7 @@ downloads.default_dir = os.getenv("HOME") .. "/download"
 	-- SOLVE: Find a way to store this string as a html file
 	-- SOLVE: reduce the amounts of !important's
 	-- WHAT A MESS
+
 chrome.stylesheet = [===[
     * {
         box-sizing: border-box;
@@ -177,3 +179,10 @@ chrome.stylesheet = [===[
         cursor: not-allowed;
     }
 ]===]
+
+-- TODO: set color only on chrome, change all _chrome files to not require colors
+
+--local f = assert(io.open("/home/immr/.config/luakit/chrome/adblock.css","rb"))
+--local content = f:read("*all")
+--f:close()
+--adblock_chrome.html_style = content 
