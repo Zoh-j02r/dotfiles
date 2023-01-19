@@ -10,30 +10,41 @@ show_help() {
 	echo "  set 	<palette> <color-id> <hex-color>	Set a new color to a palette."
 	echo "  apply 	<palette> 				Apply changes to colors."
 	echo "  revert						Change hexcolors to color identifiers."
+	echo "  identifier					Show colors identifiers"
 	echo
 }
 
 show_palette() {
-	#TODO: if arguments are missing show available themes to be chosen.
-	echo "Showing colorscheme of palette: $1"
-	echo '      H         L         M'
-	for p in {0..7}; do
-		# I feel sad when looking at this? the must be a better way
-		hi=${Cp[$p]:1}
-		lo=${Cp[$(($p+8))]:1}
-		mi=${Cp[$(($p+16))]:1}
-		chi=$(printf ";%d;%d;%d\n" 0x${hi:0:2} 0x${hi:2:2} 0x${hi:4:2})
-		clo=$(printf ";%d;%d;%d\n" 0x${lo:0:2} 0x${lo:2:2} 0x${lo:4:2})
-		cmi=$(printf ";%d;%d;%d\n" 0x${mi:0:2} 0x${mi:2:2} 0x${mi:4:2})
-		hh='\033[48;2'"$chi"'m'
-		hl='\033[48;2'"$clo"'m'
-		hm='\033[48;2'"$cmi"'m'
-		ed='\033[0m'
-		bm='\033[38;2;14;11;22m'
-		printf '   '${bm}${hh}${Cp[$p]}${ed}
-		printf '   '${bm}${hl}${Cp[$(($p+8))]}${ed}
-		printf '   '${bm}${hm}${Cp[$(($p+16))]}${ed}'\n'
-	done
+	if [ -z "$1" ]; then
+		echo 'Available themes:'
+		echo $(ls ~/.local/share/palette/) 
+		exit 1
+	else
+		if [ "$2" == 'raw' ]
+		then
+			echo ${Cp[@]}
+		else
+			echo Showing colorscheme of palette: "$1"
+			echo '      H         L         M'
+			for p in {0..7}; do
+				# I feel sad when looking at this? the must be a better way
+				hi=${Cp[$p]:1}
+				lo=${Cp[$(($p+8))]:1}
+				mi=${Cp[$(($p+16))]:1}
+				chi=$(printf ";%d;%d;%d\n" 0x${hi:0:2} 0x${hi:2:2} 0x${hi:4:2})
+				clo=$(printf ";%d;%d;%d\n" 0x${lo:0:2} 0x${lo:2:2} 0x${lo:4:2})
+				cmi=$(printf ";%d;%d;%d\n" 0x${mi:0:2} 0x${mi:2:2} 0x${mi:4:2})
+				hh='\033[48;2'"$chi"'m'
+				hl='\033[48;2'"$clo"'m'
+				hm='\033[48;2'"$cmi"'m'
+				ed='\033[0m'
+				bm='\033[38;2;14;11;22m'
+				printf '   '${bm}${hh}${Cp[$p]}${ed}
+				printf '   '${bm}${hl}${Cp[$(($p+8))]}${ed}
+				printf '   '${bm}${hm}${Cp[$(($p+16))]}${ed}'\n'
+			done
+		fi
+	fi
 }
 
 create_palette() {
@@ -168,7 +179,7 @@ case $1 in
 		show_help	
 	;;
 	'show')
-		show_palette $2
+		show_palette $2 $3
 	;;
 	'new')
 		create_palette $2
@@ -182,6 +193,9 @@ case $1 in
 	'revert')
 		#TODO: add function to recognize which available theme is set.
 		color_revert $2
+	;;
+	'identifier')
+		echo ${Ci[@]}
 	;;
 	*)
 		error $1
