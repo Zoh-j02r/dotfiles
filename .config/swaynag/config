@@ -1,5 +1,6 @@
-
-font=Iosevka Nerd Font:pixelsize=10
+font=Source Code Pro 12
+edge=top
+layer=overlay
 dismiss-button= 
 
 [warning]
@@ -7,10 +8,11 @@ background=0E0B16
 text=B3C4E0
 border-bottom-size=1
 button-border-size=0
-border-bottom=B3C4E0
+border-bottom=455574
 button-text=B3C4E0
 button-gap=0
-button-margin-right=12
+button-dismiss-gap=25
 button-background=0E0B16
-button-padding=4
+message-padding=5
+button-padding=5
 border=B3C4E0
