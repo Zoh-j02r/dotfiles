@@ -1,6 +1,6 @@
 # Keyboard layout
 input * {
-xkb_layout "br"
+	xkb_layout "br"
 }
 # Window layout
 gaps vertical 7
@@ -24,8 +24,8 @@ set $right l
 output "*" bg #211C2E solid_color
 # Lockscreen decoration
 exec swayidle -w timeout 300 'swaylock' \
- 		 timeout 600 'swaymsg "output * power off"' \
-		 resume 'swaymsg "output * power on"' \
+ 	 timeout 600 'swaymsg "output * power off"' \
+	 resume 'swaymsg "output * power on"' \
 # Start a terminal
 bindsym $mod+Return exec foot
 # Kill focused window
@@ -35,8 +35,6 @@ bindsym $mod+o exec luakit -nU
 # Master selector key
 # TODO: add more custom behaviors using seat.
 bindsym Shift+x exec swaymsg 'seat "seat0" cursor press button1' 
-# Takes screenshots
-bindsym $mod+Shift+g exec ~/.config/sway/capture
 floating_modifier $mod normal
 # Reload the configuration file
 bindsym $mod+Shift+c reload
@@ -91,13 +89,24 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 # Resizing containers:
 mode "resize" {
-    bindsym $left resize shrink width 16px
-    bindsym $down resize grow height 16px
-    bindsym $up resize shrink height 16px
-    bindsym $right resize grow width 16px
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+	bindsym $left resize shrink width 16px
+	bindsym $down resize grow height 16px
+	bindsym $up resize shrink height 16px
+	bindsym $right resize grow width 16px
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
+mode "capture" { 
+	bindsym v exec ~/.config/sway/capture video region 
+	bindsym w exec ~/.config/sway/capture video
+	bindsym i exec ~/.config/sway/capture image region
+	bindsym l exec ~/.config/sway/capture image
+	bindsym k exec ~/.config/sway/capture stop
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
 bindsym $mod+r mode "resize"
+bindsym $mod+g mode "capture"
 
 include /etc/sway/config.d/*

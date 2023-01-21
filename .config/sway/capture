@@ -23,5 +23,7 @@ else
 		mode_arg $2
 		cmd="grim ${region} ~/document/image/capture/${file}.png"
 		eval $cmd
+	elif [ "$1" == 'stop' ]; then
+		kill  -SIGINT $(pidof wf-recorder)
 	fi
 fi
