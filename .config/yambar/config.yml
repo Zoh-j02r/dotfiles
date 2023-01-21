@@ -1,7 +1,6 @@
-text: &text Iosevka Nerd Font:pixelsize=12
-icon: &icon Iosevka Nerd Font:pixelsize=16
+text: &text Source Code Pro:size=14
+icon_big: &icon_big Font Awesome 6 Free Solid:style=Solid:size=12
 underline: &underline {underline: { size: 1, color: 455574FF}}
-        # SOLVE: fix yambar stops updating after sometime
 bar:
   height: 31 
   location: top
@@ -48,35 +47,63 @@ bar:
         poll-interval: 1000
         content:
           map:
-            default: {string: {text:  , font: *icon, foreground: F9F9F9FF}}
+            default: {string: {text:  , font: *icon_big, foreground: F9F9F9FF}}
             conditions:
         # SOLVE: add a more representative icon
-              state == down: {string: {text:  , font: *icon, foreground: B30039FF}}
+              state == down: {string: {text:  , font: *icon_big, foreground: B30039FF}}
               state == up:
         # SOLVE: add color change based on signal quality
                 - string: {text: "{ssid}",right-margin: 5}
-                - string: {text:  ,font: *icon}
+                - string: {text:  ,font: *icon_big}
+    - pipewire:
+        anchors:
+          volume: &volume
+            conditions:
+              muted: {string: {text: "{cubic_volume}%"}}
+              ~muted: {string: {text: "{cubic_volume}%"}}
+        content:
+          list:
+            items:
+              - map:
+                  conditions:
+                    type == "sink":
+                      - ramp:
+                          tag: cubic_volume
+                          items:
+                            - string: {text:   ,font: *icon_big}
+                            - string: {text:   ,font: *icon_big}
+                            - string: {text:   ,font: *icon_big}
+                    type == "source":
+                      map:
+                        conditions:
+                          muted: {string: {text:  ,font: *icon_big}}
+                          ~muted: {string: {text:  ,font: *icon_big}}
+              - map:
+                  <<: *volume
     - cpu:
         content:
           map:
             conditions:
               id < 0:
-
-        # SOLVE: add color change based on processing percentage
                 - string: {text: "{cpu}%",right-margin: 5}
-                - string: {text:  , font: *icon}
+                - string: {text:  , font: *icon_big}
     - mem:
           interval: 1500
           content:
             - string: {text: "{used:mb} MB",right-margin: 5}
-            - string: {text:  ,font: *icon}
+            - string: {text:  ,font: *icon_big}
     - backlight:
         name: amdgpu_bl0
         content: 
           - string: {text: "{percent}%",right-margin: 5}
-          - string: {text:  , font: *icon}
+          - ramp:
+              tag: brightness
+              items:
+                - string: {text: n , foreground: B30039FF, font: *icon_big}
+                - string: {text: l , foreground: E69200FF, font: *icon_big}
+                - string: {text: m , foreground: 32ED4FFF, font: *icon_big} 
+                - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
     - battery:
-        # SOLVE: fix energy going above a hundred percent
         name: BAT0
         poll-interval: 30
         anchors:
@@ -87,16 +114,16 @@ bar:
                 - ramp:
                     tag: capacity
                     items:
-                      - string: {text:  , foreground: B30039FF, font: *icon}
-                      - string: {text:  , foreground: E69200FF, font: *icon}
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon}
+                      - string: {text:  , foreground: B30039FF, font: *icon_big}
+                      - string: {text:  , foreground: E69200FF, font: *icon_big}
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
+                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big}
         content:
           map:
             conditions:
@@ -106,14 +133,14 @@ bar:
                 <<: *discharging
               state == charging:
                 - string: {text: "{capacity}%",right-margin: 5}
-                - string: {text:  , foreground: 51F069FF, font: *icon}
+                - string: {text:  , font: *icon_big}
               state == full:
                 - string: {text: "{capacity}%",right-margin: 5}
-                - string: {text:  , foreground: 10E080FF , font: *icon}
+                - string: {text:  , font: *icon_big}
     - clock:
         time-format: "%H:%M"
         content:
           - string: {text: "{date}",right-margin: 5}
-          - string: {text:  , font: *icon,right-margin: 32}
+          - string: {text:  , font: *icon_big,right-margin: 32}
           - string: {text: "{time}",right-margin: 5}
-          - string: {text:  , font: *icon,right-margin: 10}
+          - string: {text:  , font: *icon_big,right-margin: 10}
