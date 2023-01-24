@@ -8,7 +8,7 @@ return require('packer').startup(function(use)
 	use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
 	use {'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps' }
 	use {'ms-jpq/coq_nvim', branch = 'coq'}
---	use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
+	use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
 	use {'nvim-treesitter/nvim-treesitter',
 	    run = function()
 	        local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
