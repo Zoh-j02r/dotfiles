@@ -1,10 +1,11 @@
 text: &text Source Code Pro:size=14
 icon_big: &icon_big Font Awesome 6 Free Solid:style=Solid:size=12
+icon_bigger: &icon_bigger Font Awesome 6 Free Solid:style=Solid:size=16
 underline: &underline {underline: { size: 1, color: 455574FF}}
 bar:
   height: 31 
   location: top
-  spacing: 16
+  spacing: 12
   margin: 8
   font: *text 
   foreground: B3C4E0FF
@@ -41,6 +42,12 @@ bar:
                 state == unfocused: {string: {<<: *default}}
                 state == invisible: {string: {<<: [*default, *invisible]}}
                 state == urgent:    {string: {<<: [*default, *urgent]}}
+    - mpd:
+        host: 127.0.0.1
+        port: 6600
+        content:
+          - string: {text: "{title} {pos}/{end}",right-margin: 5}
+          - string: {text:  ,font: *icon_big }
   right:
     - network:
         name: wlp1s0
@@ -49,22 +56,23 @@ bar:
           map:
             default: {string: {text:  , font: *icon_big, foreground: F9F9F9FF}}
             conditions:
-        # SOLVE: add a more representative icon
               state == down: {string: {text:  , font: *icon_big, foreground: B30039FF}}
               state == up:
-        # SOLVE: add color change based on signal quality
                 - string: {text: "{ssid}",right-margin: 5}
                 - string: {text:  ,font: *icon_big}
     - pipewire:
         anchors:
           volume: &volume
             conditions:
-              muted: {string: {text: "{cubic_volume}%"}}
-              ~muted: {string: {text: "{cubic_volume}%"}}
+              muted: {string: {text: " {cubic_volume}%",right-margin: 5}}
+              ~muted: {string: {text: " {cubic_volume}%",right-margin: 5}}
         content:
           list:
             items:
               - map:
+                  <<: *volume
+              - map:
+                  on-click: "foot -a mixer pulsemixer"
                   conditions:
                     type == "sink":
                       - ramp:
@@ -78,20 +86,18 @@ bar:
                         conditions:
                           muted: {string: {text:  ,font: *icon_big}}
                           ~muted: {string: {text:  ,font: *icon_big}}
-              - map:
-                  <<: *volume
     - cpu:
         content:
           map:
             conditions:
               id < 0:
                 - string: {text: "{cpu}%",right-margin: 5}
-                - string: {text:  , font: *icon_big}
+                - string: {text:  , font: *icon_big}
     - mem:
           interval: 1500
           content:
             - string: {text: "{used:mb} MB",right-margin: 5}
-            - string: {text:  ,font: *icon_big}
+            - string: {text:  ,font: *icon_big}
     - backlight:
         name: amdgpu_bl0
         content: 
@@ -99,10 +105,9 @@ bar:
           - ramp:
               tag: brightness
               items:
-                - string: {text: n , foreground: B30039FF, font: *icon_big}
-                - string: {text: l , foreground: E69200FF, font: *icon_big}
-                - string: {text: m , foreground: 32ED4FFF, font: *icon_big} 
-                - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
+                - string: {text:  , font: *icon_big}
+                - string: {text:  , font: *icon_big} 
+                - string: {text:  , font: *icon_big} 
     - battery:
         name: BAT0
         poll-interval: 30
@@ -114,16 +119,16 @@ bar:
                 - ramp:
                     tag: capacity
                     items:
-                      - string: {text:  , foreground: B30039FF, font: *icon_big}
-                      - string: {text:  , foreground: E69200FF, font: *icon_big}
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big} 
-                      - string: {text:  , foreground: 32ED4FFF, font: *icon_big}
+                      - string: {text:  , font: *icon_bigger}
+                      - string: {text:  , font: *icon_bigger}
+                      - string: {text:  , font: *icon_bigger} 
+                      - string: {text:  , font: *icon_bigger} 
+                      - string: {text:  , font: *icon_bigger} 
+                      - string: {text:  , font: *icon_bigger} 
+                      - string: {text:  , font: *icon_bigger} 
+                      - string: {text:  , font: *icon_bigger} 
+                      - string: {text:  , font: *icon_bigger} 
+                      - string: {text:  , font: *icon_bigger}
         content:
           map:
             conditions:
@@ -136,11 +141,11 @@ bar:
                 - string: {text:  , font: *icon_big}
               state == full:
                 - string: {text: "{capacity}%",right-margin: 5}
-                - string: {text:  , font: *icon_big}
+                - string: {text:  , font: *icon_bigger}
     - clock:
         time-format: "%H:%M"
         content:
           - string: {text: "{date}",right-margin: 5}
-          - string: {text:  , font: *icon_big,right-margin: 32}
+          - string: {text:  , font: *icon_big,right-margin: 12}
           - string: {text: "{time}",right-margin: 5}
-          - string: {text:  , font: *icon_big,right-margin: 10}
+          - string: {text:  , font: *icon_big,right-margin: 6}

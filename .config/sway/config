@@ -1,3 +1,8 @@
+# Start-up applications
+exec pipewire &
+exec mpd && yambar
+for_window [app_id="mixer"] floating enable
+
 # Keyboard layout
 input * {
 	xkb_layout "br"
@@ -9,11 +14,14 @@ gaps inner 3
 default_border pixel 1
 default_floating_border pixel 1 
 # Set borders colors
-set $bc #455574
-set $bcu #FF427C
-client.focused $bc $bc $bc $bc  
-client.unfocused $bc $bc $bc $bc
-client.urgent $bcu $bcu $bcu $bcu 
+set {
+	$bgs #6C7D9C
+	$bgi #455574
+	$bgw #FF427C
+} 
+client.focused $bgs $bgs $bgs $bgs  
+client.unfocused $bgi $bgi $bgi $bgi
+client.urgent $bgw $bgw $bgw $bgw 
 # Key mapping
 set $mod Mod4
 set $left h
@@ -41,7 +49,7 @@ bindsym $mod+Shift+c reload
 # Exit sway 
 # TODO: add multiple options of what to do with current session
 bindsym $mod+Shift+e exec pkill yambar && swaynag -y overlay -t warning -m "Exit sway?" \
--B  'swaymsg exit' && yambar 
+-B  'swaymsg exit' && yambar
 # Move your focus around
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
