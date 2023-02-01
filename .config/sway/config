@@ -1,8 +1,19 @@
+# Workspaces name
+set {
+	$ws1 "1:" 
+	$ws2 "2:󰇧"
+	$ws3 "3:󰻅"
+	$ws4 "4:"
+	$ws5 "5:󰝚"
+}
 # Start-up applications
-exec pipewire &
-exec mpd && yambar
-for_window [app_id="mixer"] floating enable
+exec {
+	~/.config/sway/start
+	foot --server 
+}
 
+for_window [app_id="mixer"] floating enable
+assign [app_id="luakit"] workspace $ws2
 # Keyboard layout
 input * {
 	xkb_layout "br"
@@ -23,11 +34,13 @@ client.focused $bgs $bgs $bgs $bgs
 client.unfocused $bgi $bgi $bgi $bgi
 client.urgent $bgw $bgw $bgw $bgw 
 # Key mapping
-set $mod Mod4
-set $left h
-set $down j
-set $up k
-set $right l
+set {
+	$mod Mod4
+	$left h
+	$down j
+	$up k
+	$right l
+}
 # Set background 
 output "*" bg #211C2E solid_color
 # Lockscreen decoration
@@ -35,21 +48,19 @@ exec swayidle -w timeout 300 'swaylock' \
  	 timeout 600 'swaymsg "output * power off"' \
 	 resume 'swaymsg "output * power on"' \
 # Start a terminal
-bindsym $mod+Return exec foot
+bindsym $mod+Return exec footclient
 # Kill focused window
 bindsym $mod+Shift+q kill
 # Start browser
 bindsym $mod+o exec luakit -nU
 # Start mixer
-bindsym $mod+m exec foot -a mixer pulsemixer
+bindsym $mod+m exec footclient -a mixer pulsemixer
 # Master selector key
-# TODO: add more custom behaviors using seat.
 bindsym Shift+x exec swaymsg 'seat "seat0" cursor press button1' 
 floating_modifier $mod normal
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 # Exit sway 
-# TODO: add multiple options of what to do with current session
 bindsym $mod+Shift+e exec pkill yambar && swaynag -y overlay -t warning \
 	-m "Select a option"  -B 󰗼 'swaymsg exit' -B  'loginctl reboot'\
 	-B  'loginctl poweroff' && yambar
@@ -64,27 +75,17 @@ bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
 # Switch to workspace
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2 
+bindsym $mod+3 workspace $ws3 
+bindsym $mod+4 workspace $ws4 
+bindsym $mod+5 workspace $ws5 
 # Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
 # Horizontal and vertical splits
 bindsym $mod+b splith
 bindsym $mod+v splitv
@@ -107,7 +108,8 @@ mode "resize" {
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
-mode "capture" { 
+# Capturing image or video
+mode "capture" {
 	bindsym v exec ~/.config/sway/capture video region 
 	bindsym w exec ~/.config/sway/capture video
 	bindsym i exec ~/.config/sway/capture image region
@@ -116,8 +118,6 @@ mode "capture" {
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
-
 bindsym $mod+r mode "resize"
 bindsym $mod+g mode "capture"
-
 include /etc/sway/config.d/*

@@ -15,9 +15,10 @@ bar:
   left:
     - i3:
         sort: ascending
-        anchors: 
+        strip-workspace-numbers: true
+        anchors:
           - string: &i3_common {margin: 10, on-click: "swaymsg --quiet workspace {name}"}
-          - string: &default {<<: *i3_common, text: "{name}"}
+          - string: &default {<<: *i3_common, text: "{name}",font: *icon}
           - focused: &focused
               deco: {stack: [ *underline]}
           - invisible: &invisible {foreground: F9F9F9FF}
@@ -25,7 +26,7 @@ bar:
               foreground: 6C7D9CFF
               deco: {stack: [background: {color: 10E080FF}, <<:  *underline]}
           - map: &i3_mode
-              default:
+              defaut:
                 - string:
                     margin: 5
                     text: "{mode}"
@@ -33,6 +34,8 @@ bar:
                 - empty: {right-margin: 7}
               conditions:
                 mode == default: {empty: {}}
+                mode == resize: {string: {text: "pogger"}}
+                mode == capture: {string: {text: "noogger"}}
         content:
           "":
             map:
@@ -46,7 +49,6 @@ bar:
         port: 6600
         content:
           - string: {text: "{title} {pos}/{end}",right-margin: 5}
-          - string: {text:  ,font: *icon }
   right:
     - network:
         name: wlp1s0
@@ -76,7 +78,7 @@ bar:
                     type == "sink":
                       map:
                         conditions:
-                          muted: {string: {text: 󰖁 ,font: *icon}}
+                          muted: {string: {text: 󰝟 ,font: *icon}}
                           ~muted: 
                             - ramp:
                                 tag: cubic_volume
