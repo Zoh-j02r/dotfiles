@@ -1,0 +1,10 @@
+#!/bin/bash
+init=("pipewire" "mpd" "yambar")
+sleep 5
+for p in "${!init[@]}"; do
+	if ! pgrep -x ${init[$p]} >> /dev/null; then
+		"${init[$p]}" &
+	else
+		echo "did not run"
+	fi
+done
