@@ -40,6 +40,8 @@ bindsym $mod+Return exec foot
 bindsym $mod+Shift+q kill
 # Start browser
 bindsym $mod+o exec luakit -nU
+# Start mixer
+bindsym $mod+m exec foot -a mixer pulsemixer
 # Master selector key
 # TODO: add more custom behaviors using seat.
 bindsym Shift+x exec swaymsg 'seat "seat0" cursor press button1' 
@@ -48,8 +50,9 @@ floating_modifier $mod normal
 bindsym $mod+Shift+c reload
 # Exit sway 
 # TODO: add multiple options of what to do with current session
-bindsym $mod+Shift+e exec pkill yambar && swaynag -y overlay -t warning -m "Exit sway?" \
--B  'swaymsg exit' && yambar
+bindsym $mod+Shift+e exec pkill yambar && swaynag -y overlay -t warning \
+	-m "Select a option"  -B 󰗼 'swaymsg exit' -B  'loginctl reboot'\
+	-B  'loginctl poweroff' && yambar
 # Move your focus around
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
