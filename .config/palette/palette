@@ -126,23 +126,23 @@ color_apply() {
 	color_revert
 	color_palette_get $1
 	for p in "${!files[@]}"; do
-		color_check apply ${files[$p]}
+		color_check apply "$HOME/.config/${files[$p]}"
 			for i in "${!Ci[@]}"; do
 				cl=${Cp[$i]}$A 	
 				cs=${Ci[$i]}
 				printf "%s" "s/${cs}$k$A/${cl:$k}/;"
-			done | { read -r var; sed -e ${var%?} -i "${files[$p]}"; } 
+			done | { read -r var; sed -e ${var%?} -i "$HOME/.config/${files[$p]}"; }
 	done 
 }
 
 color_revert() {
 	for p in "${!files[@]}"; do
-		color_check revert ${files[$p]}
+		color_check revert "$HOME/.config/${files[$p]}"
 			for i in "${!Ci[@]}"; do
 				cl=${Cp[$i]}$A
 				cs=${Ci[$i]}
 				printf "%s" "s/${cl:$k}/${cs}$k$A/;" 
-			done | { read -r var; sed -e ${var%?} -i "${files[$p]}"; } 
+			done | { read -r var; sed -e ${var%?} -i "$HOME/.config/${files[$p]}"; } 
 	done 
 }
 
@@ -162,7 +162,7 @@ Ci=("bl_h" "rd_h" "gr_h" "yw_h" "bu_h" "lg_h" "cy_h" "wh_h" "bl_l" "rd_l" "gr_l"
  "bu_l" "lg_l" "cy_l" "wh_l" "bg_0" "bg_1" "bg_2" "bg_3" "hg_c" "fg_0" "fg_1" "fg_2")
 files=("sway/config" "yambar/config.yml" "zathura/zathurarc" "nvim/lua/core/coloring/palette.lua"
 "luakit/palette.lua" "imv/config" "swaynag/config" "swaylock/config" "foot/foot.ini")
-	# MISSING: cmus, armcord
+	# MISSING: armcord
 
 	#TODO: add a better filecheck creating function
 if [[ ! -e ~/.local/share/palette ]]; then
