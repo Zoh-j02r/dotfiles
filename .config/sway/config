@@ -9,7 +9,7 @@ set {
 # Start-up applications
 exec {
 	~/.config/sway/start
-	foot --server 
+	foot --server
 }
 
 for_window [app_id="mixer"] floating enable
@@ -118,6 +118,19 @@ mode "capture" {
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
+mode "music" {
+	bindsym j exec mpc next  
+	bindsym k exec mpc prev
+	bindsym r exec mpc random
+	bindsym c exec mpc consume
+	bindsym p exec mpc play
+	bindsym space exec mpc pause
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
+
 bindsym $mod+r mode "resize"
 bindsym $mod+g mode "capture"
+bindsym $mod+Shift+m mode "music"
 include /etc/sway/config.d/*
