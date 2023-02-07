@@ -15,5 +15,6 @@ return require('packer').startup(function(use)
 	        ts_update()
 	    end,
 	}
-	  use 'neovim/nvim-lspconfig'
+	use 'neovim/nvim-lspconfig'
+	use 'lervag/vimtex'
 end)

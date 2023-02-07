@@ -8,6 +8,7 @@ require("plugins.bufferline")
 require("plugins.blankline")
 require("plugins.chadtree")
 require("plugins.treesitter")
+require("plugins.vimtex")
 
 local lspconfig = require "lspconfig"
 local coq = require "coq"

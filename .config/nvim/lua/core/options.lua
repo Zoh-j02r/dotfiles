@@ -11,5 +11,7 @@ vim.opt.cursorlineopt = "number"
 vim.opt.guicursor = ""
 vim.opt.showbreak=" +++ "
 vim.opt.cmdheight = 0
+vim.opt.encoding = "utf-8"
+vim.cmd[[filetype plugin indent on]]
 vim.cmd[[hi Normal guibg=NONE ctermbg=NONE]]
 vim.cmd[[hi EndOfBuffer guibg=NONE ctermbg=NONE]]
