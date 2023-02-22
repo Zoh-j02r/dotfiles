@@ -1,8 +1,7 @@
 #!/bin/bash
 mode_arg(){
 	if [ -z "$1" ]; then 
-		echo 'No mode selected'
-		exit 1
+		region=''
 	
 	elif [ "$1" == 'region' ]; then 
 		region='-g "$(slurp)"'

@@ -110,13 +110,11 @@ mode "resize" {
 }
 # Capturing image or video
 mode "capture" {
-	bindsym v exec ~/.config/sway/capture video region 
-	bindsym w exec ~/.config/sway/capture video
-	bindsym i exec ~/.config/sway/capture image region
-	bindsym l exec ~/.config/sway/capture image
-	bindsym k exec ~/.config/sway/capture stop
-	bindsym Return mode "default"
-	bindsym Escape mode "default"
+	bindsym v exec ~/.config/sway/capture video region, mode "default"
+	bindsym w exec ~/.config/sway/capture video, mode "default"
+	bindsym i exec ~/.config/sway/capture image region, mode "default" 
+	bindsym l exec ~/.config/sway/capture image, mode "default" 
+	bindsym k exec ~/.config/sway/capture stop, mode "default"
 }
 mode "music" {
 	bindsym j exec mpc next  
@@ -129,8 +127,7 @@ mode "music" {
 	bindsym Escape mode "default"
 }
 
-
 bindsym $mod+r mode "resize"
-bindsym $mod+g mode "capture"
+bindsym $mod+Shift+g mode "capture"
 bindsym $mod+Shift+m mode "music"
 include /etc/sway/config.d/*

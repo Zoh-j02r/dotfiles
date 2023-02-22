@@ -1,10 +1,10 @@
 #!/bin/bash
 init=("pipewire" "mpd" "yambar")
-arg=("dbus-launch pipewire" "mpd" "yambar -b wayland")
+arg=("dbus-launch pipewire" "mpd" "yambar")
 for p in "${!init[@]}"; do
 	if ! pgrep -x ${init[$p]} >> /dev/null; then
 		${arg[$p]} &
-		sleep 2
+		sleep 1
 	else
 		echo "info: did not run ${init[$p]}"
 	fi
