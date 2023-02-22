@@ -16,7 +16,6 @@ end
 -- To see what those variables do,look: https://neovim.io/doc/user/syntax.html
 
 hl.common = {
-
 	Normal = { fg = c.fg0 }, 
 	Terminal = {fg = c.fg0, bg = transparent and c.none or c.bg0}, 
 	EndOfBuffer = {fg = c.b3 and c.bg2 or c.bg0, bg = c.b3 and c.none or c.bg0},
@@ -54,9 +53,9 @@ hl.common = {
 	WarningMsg = {fg = c.yw1,fmt = "bold"},
 	MoreMsg = {fg = c.bu0,fmt = "bold"},
 
-	IncSearch = {fg = c.lg0},
-	Search = {fg = c.lg1},
-	Substitute = {fg = c.lg0},
+	IncSearch = {fg = c.mg0},
+	Search = {fg = c.mg1},
+	Substitute = {fg = c.mg0},
 	MatchParen = {fmt = "bold"},
 
 	NonText = {fg = c.wh0},
@@ -92,39 +91,39 @@ hl.common = {
 
 hl.syntax = {
 	Comment = {fg = c.bg3,fmt = "italic"},
-	Constant = {fg = c.bu0},
-	String = {fg = c.bu0},
-	Character = {fg = c.bu0},
-	Number = {fg = c.bu0},
-	Boolean = {fg = c.bu0},
-	Float = {fg = c.bu0},
+	Constant = {fg = c.cy0},
+	String = {fg = c.gr0},
+	Character = {fg = c.cy1},
+	Number = {fg = c.cy1},
+	Boolean = {fg = c.cy1},
+	Float = {fg = c.cy1},
 
-	Identifier = {fg = c.cy0,fmt = "bold"},
-	Function = {fg = c.cy0,fmt = "bold"},
+	Identifier = {fg = c.wh0},
+	Function = {fg = c.gr1,fmt="bold"},
 
-	Statement = {fg = c.rd0 ,fmt = "bold"},
-	Conditional = {fg = c.rd0,fmt = "bold"},
-	Repeat = {fg = c.rd0,fmt = "bold"},
-	Label = {fg = c.rd0},
-	Operator = {fg = c.gr0},
-	Keyword = {fg = c.rd0,fmt = none},
-	Exception = {fg = c.rd0},
+	Statement = {fg = c.rd1 ,fmt = "bold"},
+	Conditional = {fg = c.rd1,fmt = "bold"},
+	Repeat = {fg = c.rd1,fmt = "bold"},
+	Label = {fg = c.rd1},
+	Operator = {fg = c.cy0,fmt="bold"},
+	Keyword = {fg = c.rd1,fmt ="bold"},
+	Exception = {fg = c.mg0},
 
-	PreProc = {fg = c.bu0},
-	Include = {fg = c.bu0},
-	Define = {fg = c.bu0},
-	Macro = {fg = c.bu0},
-	PreCondit = {fg = c.bu0},
+	PreProc = {fg = c.mg1},
+	Include = {fg = c.mg0,fmt="bold"},
+	Define = {fg = c.mg0,fmt="bold"},
+	Macro = {fg = c.mg1},
+	PreCondit = {fg = c.mg1},
 
-	Type = {fg = c.cy0},
-	StorageClass = {fg = c.cy0},
-	Structure = {fg = c.cy0},
-	Typedef = {fg = c.cy0},
+	Type = {fg = c.bu0,fmt="bold"},
+	StorageClass = {fg = c.bu0},
+	Structure = {fg = c.bu0},
+	Typedef = {fg = c.bu0},
 
-	Special = {fg = c.cy0},
-	SpecialChar = {fg = c.cy0},
-	Tag = {fg = c.cy0},
-	Delimiter = {fg = c.cy0},
+	Special = {fg = c.gr0},
+	SpecialChar = {fg = c.gr0},
+	Tag = {fg = c.gr0},
+	Delimiter = {fg = c.gr0},
 	SpecialComment = {fg = c.fg1, fmt = "italic"},
 	Debug = {fg = c.bg3},
 	
@@ -132,9 +131,9 @@ hl.syntax = {
 
 	Error = {fg = c.rd1,bg=c.rd0},
 
-	Todo = {fg = c.wh0,bg = c.cy0,fmt = "bold"},
+	Todo = {fg = c.wh0,bg = c.cy1,fmt = "bold"},
 
-	Title = {fg = c.cy0},
+	Title = {fg = c.cy1},
 }
 
 function M.setup()
@@ -142,7 +141,7 @@ function M.setup()
 	vim_highlights(hl.syntax)
 	for _, group in pairs(hl.langs) do vim_highlights(group) end
 	for _, group in pairs(hl.plugins) do vim_highlights(group) end
-	vim.cmd("highlight id1 guifg=" .. c.cy0 .. " gui=nocombine")
+	vim.cmd("highlight id1 guifg=" .. c.gr0 .. " gui=nocombine")
 end
 
 return M

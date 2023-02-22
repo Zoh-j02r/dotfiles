@@ -13,7 +13,6 @@ def main():
     board = ImageDraw.Draw(template)
         # Pillow does not have a builtin way to acess fonts, a full path must be specified
         # This action can be done using python-fontconfig but wish not to import this library
-            #TODO: find a way a to get a cool looking font automatically
     filename="/usr/share/fonts/TTF/FiraCode-Regular.ttf"
     font_0 = ImageFont.truetype(filename, size=36)
     font_1 = ImageFont.truetype(filename, size=64)
