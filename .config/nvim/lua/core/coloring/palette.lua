@@ -1,6 +1,6 @@
 return {
 	-- SOLVE: share this neovim config file with luakit browser
-	bl0 = "#221B36",
+	bl0 = "#171322",
 	rd0 = "#FF427C",
 	gr0 = "#69FF47",
 	yw0 = "#FFE722",
