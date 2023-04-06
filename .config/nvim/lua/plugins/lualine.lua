@@ -11,7 +11,7 @@ local palette = {
       b = {fg = c.fg0, bg = c.bg2},
       c = {fg = c.fg0, bg = c.bg1},
   },
-  visual = {a = {fg = c.bg0, bg = c.lg0, gui = 'bold'}},
+  visual = {a = {fg = c.bg0, bg = c.mg0, gui = 'bold'}},
   replace = {a = {fg = c.bg0, bg = c.rd0, gui = 'bold'}},
   insert = {a = {fg = c.bg0, bg = c.bu0, gui = 'bold'}},
   command = {a = {fg = c.bg0, bg = c.yw0, gui = 'bold'}},
