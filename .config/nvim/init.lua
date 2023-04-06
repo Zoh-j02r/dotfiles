@@ -17,10 +17,11 @@ local coq = require "coq"
 	-- SOLVE: create coq config file for customization  
 vim.cmd[[COQnow -s]]
 
-lspconfig.ccls.setup(coq.lsp_ensure_capabilities({
+
+lspconfig.clangd.setup(coq.lsp_ensure_capabilities({
 	on_attach = on_attach_callback,
-	cmd = {'ccls'},
-	root_dir = lspconfig.util.root_pattern('compile_commands.json','.git'),
+	cmd = {'clangd'},
+	root_dir = lspconfig.util.root_pattern('compile_commands.json'),
 }))
 
 lspconfig.rust_analyzer.setup(coq.lsp_ensure_capabilities({
