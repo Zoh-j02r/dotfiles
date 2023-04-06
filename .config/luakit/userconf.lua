@@ -1,7 +1,12 @@
+local settings = require("settings")
 local c = require('palette')
 local chrome = require('chrome')
+local modes = require "modes"
 local downloads = require('downloads')
 local adblock_chrome = require('adblock_chrome')
+local engines = settings.window.search_engines
+
+engines.datasheet = "https://www.alldatasheet.com/view.jsp?Searchword=%s"
 
 downloads.default_dir = os.getenv("HOME") .. "/download"
 	-- SOLVE: add custom module to use instead of viewpdf
@@ -9,6 +14,22 @@ downloads.default_dir = os.getenv("HOME") .. "/download"
 	-- SOLVE: Find a way to store this string as a html file
 	-- SOLVE: reduce the amounts of !important's
 	-- WHAT A MESS
+
+local video_cmd_fmt = "yt-dlp -f best -P '/home/immr/document/video' %s "
+modes.add_binds("ex-follow", {
+  { "m", "Downloads the video source using yt-dlp",
+      function (w)
+          w:set_mode("follow", {
+              prompt = "Select source", selector = "uri", evaluator = "uri",
+              func = function (uri)
+                  assert(type(uri) == "string")
+                  luakit.spawn(string.format(video_cmd_fmt, uri))
+                  w:notify("Donwloaded with success")
+              end
+          })
+      end },
+})
+
 
 chrome.stylesheet = [===[
     * {
@@ -181,7 +202,6 @@ chrome.stylesheet = [===[
 ]===]
 
 -- TODO: set color only on chrome, change all _chrome files to not require colors
-
 --local f = assert(io.open("/home/immr/.config/luakit/chrome/adblock.css","rb"))
 --local content = f:read("*all")
 --f:close()
