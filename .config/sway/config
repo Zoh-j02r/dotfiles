@@ -19,11 +19,11 @@ input * {
 	xkb_layout "br"
 }
 # Window layout
-gaps vertical 7
-gaps horizontal 3
-gaps inner 3
+gaps vertical 2
+gaps horizontal 2
+gaps inner 1
 default_border pixel 1
-default_floating_border pixel 1 
+default_floating_border pixel 1
 # Set borders colors
 set {
 	$bgs #6C7D9C
@@ -53,6 +53,8 @@ bindsym $mod+Return exec footclient
 bindsym $mod+Shift+q kill
 # Start browser
 bindsym $mod+o exec luakit -nU
+# Start PDF viewer
+bindsym $mod+p exec zathura
 # Start mixer
 bindsym $mod+m exec footclient -a mixer pulsemixer
 # Master selector key
@@ -62,8 +64,8 @@ floating_modifier $mod normal
 bindsym $mod+Shift+c reload
 # Exit sway 
 bindsym $mod+Shift+e exec pkill yambar && swaynag -y overlay -t warning \
-	-m "Select a option"  -B 󰗼 'swaymsg exit' -B  'loginctl reboot'\
-	-B  'loginctl poweroff' && yambar
+	-m "Select a option"  -B 󰗼 'swaymsg exit' -B  'loginctl reboot' \
+	-B  'loginctl poweroff' && yambar \
 # Move your focus around
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
