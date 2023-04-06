@@ -110,7 +110,7 @@ local tabmenu = require "tabmenu"
 -- local gopher = require "gopher"
 
 -- Add greasemonkey-like javascript userscript support
--- local userscripts = require "userscripts"
+local userscripts = require "userscripts"
 
 -- Add bookmarks support
 local bookmarks = require "bookmarks"
@@ -149,7 +149,7 @@ local completion = require "completion"
 -- `,ts` to toggle scripts, `,tp` to toggle plugins, `,tr` to reset.
 -- If you use this module, don't use any site-specific `enable_scripts` or
 -- `enable_plugins` settings, as these will conflict.
--- require "noscript"
+require "noscript"
 
 local follow_selected = require "follow_selected"
 local go_input = require "go_input"
