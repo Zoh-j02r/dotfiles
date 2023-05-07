@@ -14,9 +14,9 @@ Config(
 	layout: Rows([
 		Fixed(1, Columns([
 	    		Ratio(8, Textbox(Styled([Fg(Indexed(122)), Bold], Text("Title")))),
-	    	    	Ratio(6, Textbox(Styled([Fg(Indexed(158)), Bold], Text("Artist")))),
+	    	    	Ratio(7, Textbox(Styled([Fg(Indexed(158)), Bold], Text("Artist")))),
 	    	    	Ratio(6, Textbox(Styled([Fg(Indexed(194)), Bold], Text("Album")))),
-	    	    	Ratio(2, Textbox(Styled([Fg(Indexed(230)), Bold], Text("Time")))),
+	    	    	Ratio(1, Textbox(Styled([Fg(Indexed(230)), Bold], Text("Time")))),
 	    	])),
 	    	Min(0, Queue([
 	    		Column(
@@ -25,15 +25,15 @@ Config(
 	    	    	    	    If(QueueTitleExist, QueueTitle, QueueFile),
 	    	    	    	)),
 	    	    	    	style: [Fg(Indexed(6)),Bold],
-	    	    	    	selected_style: [Fg(Gray), Bg(Black), Bold],
+	    	    	    	selected_style: [Fg(Gray), Bg(Indexed(8)), Bold],
 	    	    	),
 	    	    	Column(
-	    	    		item: Ratio(6, If(QueueCurrent,
+	    	    		item: Ratio(7, If(QueueCurrent,
 	    	    	    	    Styled([Italic], QueueArtist),
 	    	    	    	    QueueArtist,
 	    	    	    	)),
 	    	    	    	style: [Fg(Indexed(147))],
-	    	    	    	selected_style: [Fg(Gray), Bg(Black), Bold],
+	    	    	    	selected_style: [Fg(Gray), Bg(Indexed(8)), Bold],
 	    	    	),
 	    	    	Column(
 	    	    		item: Ratio(6, If(QueueCurrent,
@@ -41,15 +41,15 @@ Config(
 	    	    	    	    QueueAlbum,
 	    	    	    	)),
 	    	    	    	style: [Fg(Indexed(147))],
-	    	    	    	selected_style: [Fg(Gray), Bg(Black), Bold],
+	    	    	    	selected_style: [Fg(Gray), Bg(Indexed(8)), Bold],
 	    	    	),
 	    	    	Column(
-	    	    		item: Ratio(2, If(QueueCurrent,
+	    	    		item: Ratio(1, If(QueueCurrent,
 	    	    	    	    Styled([Italic], QueueDuration),
 	    	    	    	    QueueDuration,
 	    	    	    	)),
 	    	    	    	style: [Fg(Indexed(147))],
-	    	    	    	selected_style: [Fg(Gray), Bg(Black), Bold],
+	    	    	    	selected_style: [Fg(Gray), Bg(Indexed(8)), Bold],
 	    	    	),
 	    	])),
 	    	Fixed(1, Columns([
@@ -78,12 +78,12 @@ Config(
 	    			),
 	    	    	))),
             		Fixed(6 , TextboxC(Styled([Bg(Black)], Parts([
-	    		    Text("   "), 
+			    If(TitleExist,Text("   ")),
 			    If(Repeat, Text("󰑖")),
             		    If(Random, Text("󰇎")),
             		    If(Single, Text("󰑘"), If(Oneshot, Text("!"))),
             		    If(Consume, Text("󰐓")),
-	    		    Text("   "), 
+			    If(TitleExist,Text("   ")),
             		])))),
 	    	])),
 	]),

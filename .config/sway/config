@@ -12,7 +12,10 @@ exec {
 	foot --server
 }
 
-for_window [app_id="mixer"] floating enable
+for_window [app_id="mixer"] { 
+	floating enable 
+	resize set width 50ppt height 50ppt 
+}
 assign [app_id="luakit"] workspace $ws2
 # Keyboard layout
 input * {
@@ -42,7 +45,8 @@ set {
 	$right l
 }
 # Set background 
-output "*" bg #211C2E solid_color
+output "*" bg ~/.config/sway/background.jpg fill 
+# "*" bg #211C2E solid_color
 # Lockscreen decoration
 exec swayidle -w timeout 300 'swaylock' \
  	 timeout 600 'swaymsg "output * power off"' \

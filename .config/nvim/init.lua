@@ -23,10 +23,3 @@ lspconfig.clangd.setup(coq.lsp_ensure_capabilities({
 	cmd = {'clangd'},
 	root_dir = lspconfig.util.root_pattern('compile_commands.json'),
 }))
-
-lspconfig.rust_analyzer.setup(coq.lsp_ensure_capabilities({
-	on_attach = on_attach_callback,
-	cmd = {'rust-analyzer'},
-	filetypes =  {'rust'},
-	root_dir = lspconfig.util.root_pattern('Cargo.toml'),
-}))

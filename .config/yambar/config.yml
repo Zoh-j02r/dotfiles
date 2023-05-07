@@ -1,6 +1,6 @@
 text: &text Source Code Pro:size=14
 icon: &icon Overpass Nerd Font:style=Solid:size=16
-underline: &underline {underline: { size: 1, color: 455574FF}}
+underline: &underline {underline: { size: 1, color: F9F9F9FF}}
 bar:
   height: 29 
   location: top
@@ -20,8 +20,8 @@ bar:
           - string: &i3_common {margin: 10, on-click: "swaymsg --quiet workspace {name}"}
           - string: &default {<<: *i3_common, text: "{name}",font: *icon}
           - focused: &focused
+              foreground: F9F9F9FF
               deco: {stack: [ *underline]}
-          - invisible: &invisible {foreground: F9F9F9FF}
           - urgent: &urgent
               foreground: 6C7D9CFF
               deco: {stack: [background: {color: 10E080FF}, <<:  *underline]}
@@ -42,7 +42,7 @@ bar:
               conditions:
                 state == focused:   {string: {<<: [*default, *focused]}}
                 state == unfocused: {string: {<<: *default}}
-                state == invisible: {string: {<<: [*default, *invisible]}}
+                state == invisible: {string: {<<: *default}}
                 state == urgent:    {string: {<<: [*default, *urgent]}}
     - mpd:
         host: 127.0.0.1
@@ -85,6 +85,7 @@ bar:
                                 items:
                                   - string: {text:   ,font: *icon}
                                   - string: {text:   ,font: *icon}
+                                  - string: {text: 󰕾  ,font: *icon}
                                   - string: {text:   ,font: *icon}
                     type == "source":
                       map:
