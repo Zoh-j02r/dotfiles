@@ -1,6 +1,0 @@
-@-moz-document regexp('(?!http://vid\\.puffyan\\.us).*') {
-	body.no-theme {
-		background-color: #0E0B16 !important;
-		color: #B3C4E0 !important;
-	}
-}
