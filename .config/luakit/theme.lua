@@ -2,7 +2,7 @@ local c = require('palette')
 local theme = {}
 
 -- Default settings
-theme.font = "16px Source Code Pro"
+theme.font = "15px Source Code Pro"
 theme.fg = c.fg0
 theme.bg = c.bg0
 
@@ -57,16 +57,16 @@ theme.ibar_bg = c.bg2
 -- Tab label
 theme.tab_fg = c.fg0
 theme.tab_bg = c.bg2
-theme.tab_hover_bg = c.bg1
+theme.tab_hover_bg = c.bg2
 theme.tab_ntheme = c.bl1
 theme.selected_fg = c.wh0
 theme.selected_bg = c.bg0
-theme.selected_ntheme = c.bl1
+theme.selected_ntheme = c.fg1
 theme.loading_fg = c.bu0
 theme.loading_bg = c.bg0
 
-theme.selected_private_tab_bg = c.hfg
-theme.private_tab_bg    = c.bl1
+theme.selected_private_tab_bg = c.fg1
+theme.private_tab_bg    = c.fg2
 
 -- Trusted/untrusted ssl colours
 theme.trust_fg = c.gr0

@@ -1,41 +1,24 @@
 text: &text Source Code Pro:size=14
 icon: &icon Overpass Nerd Font:style=Solid:size=16
-underline: &underline {underline: { size: 1, color: F9F9F9FF}}
 bar:
   height: 29 
   location: top
-  spacing: 8
-  margin: 4
+  spacing: 6
+  margin: 5
   font: *text 
   foreground: B3C4E0FF
   background: 0E0B16FF
   border:
     bottom-width: 1
-    color: 455574FF
+    color: 6C7D9CFF
   left:
     - i3:
         sort: ascending
         strip-workspace-numbers: true
         anchors:
-          - string: &i3_common {margin: 10, on-click: "swaymsg --quiet workspace {name}"}
-          - string: &default {<<: *i3_common, text: "{name}",font: *icon}
+          - string: &default {margin: 8, text: "{name}",font: *icon}
           - focused: &focused
               foreground: F9F9F9FF
-              deco: {stack: [ *underline]}
-          - urgent: &urgent
-              foreground: 6C7D9CFF
-              deco: {stack: [background: {color: 10E080FF}, <<:  *underline]}
-          - map: &i3_mode
-              defaut:
-                - string:
-                    margin: 5
-                    text: "{mode}"
-                    deco: {background: {color: 10E080FF}}
-                - empty: {right-margin: 7}
-              conditions:
-                mode == default: {empty: {}}
-                mode == resize: {string: {text: "pogger"}}
-                mode == capture: {string: {text: "noogger"}}
         content:
           "":
             map:
@@ -43,7 +26,6 @@ bar:
                 state == focused:   {string: {<<: [*default, *focused]}}
                 state == unfocused: {string: {<<: *default}}
                 state == invisible: {string: {<<: *default}}
-                state == urgent:    {string: {<<: [*default, *urgent]}}
     - mpd:
         host: 127.0.0.1
         port: 6600
@@ -100,7 +82,6 @@ bar:
                 - string: {text: "{cpu}%",right-margin: 5}
                 - string: {text:  , font: *icon}
     - mem:
-          interval: 1500
           content:
             - string: {text: "{used:mb} MB",right-margin: 5}
             - string: {text:  ,font: *icon}
@@ -111,12 +92,16 @@ bar:
           - ramp:
               tag: brightness
               items:
-                - string: {text:  , font: *icon}
-                - string: {text: 󱎖 , font: *icon} 
-                - string: {text:  , font: *icon} 
+                - string: {text: 󱩏 , font: *icon}
+                - string: {text: 󱩐 , font: *icon}
+                - string: {text: 󱩓 , font: *icon}
+                - string: {text: 󱩔 , font: *icon}
+                - string: {text: 󱩕 , font: *icon}
+                - string: {text: 󱩖 , font: *icon}
+                - string: {text: 󰛨 , font: *icon}
     - battery:
         name: BAT0
-        poll-interval: 30
+        poll-interval: 500
         anchors:
           discharging: &discharging
             list:
@@ -126,15 +111,10 @@ bar:
                     tag: capacity
                     items:
                       - string: {text:  , font: *icon}
-                      - string: {text:  , font: *icon}
-                      - string: {text:  , font: *icon} 
                       - string: {text:  , font: *icon} 
                       - string: {text:  , font: *icon} 
-                      - string: {text:  , font: *icon} 
-                      - string: {text:  , font: *icon} 
                       - string: {text:  , font: *icon} 
                       - string: {text:  , font: *icon} 
-                      - string: {text:  , font: *icon}
         content:
           map:
             conditions:

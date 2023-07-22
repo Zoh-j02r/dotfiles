@@ -1,5 +1,6 @@
 #!/bin/bash
-init=("pipewire" "mpd" "yambar")
+init=("pipewire" "wireplumber" "mpd" "yambar")
+#init=("yambar")
 for p in "${!init[@]}"; do
 	if ! pgrep -x ${init[$p]} >> /dev/null; then
 		sh -c ${init[$p]} &

@@ -3,10 +3,9 @@ set {
 	$ws1 "1:" 
 	$ws2 "2:󰇧"
 	$ws3 "3:󰻅"
-	$ws4 "4:"
-	$ws5 "5:󰝚"
+	$ws4 "4:󰝚"
 }
-# Start-up applications
+#Start-up applications
 exec {
 	~/.config/sway/start
 	foot --server
@@ -17,14 +16,16 @@ for_window [app_id="mixer"] {
 	resize set width 50ppt height 50ppt 
 }
 assign [app_id="luakit"] workspace $ws2
+assign [app_id="foot"] workspace $ws1
+assign [app_id="mpd"] workspace $ws4
 # Keyboard layout
 input * {
 	xkb_layout "br"
 }
 # Window layout
-gaps vertical 2
-gaps horizontal 2
-gaps inner 1
+gaps vertical 3
+gaps horizontal 3
+gaps inner 2
 default_border pixel 1
 default_floating_border pixel 1
 # Set borders colors
@@ -45,8 +46,7 @@ set {
 	$right l
 }
 # Set background 
-output "*" bg ~/.config/sway/background.jpg fill 
-# "*" bg #211C2E solid_color
+output "*" bg #0E0B16 solid_color
 # Lockscreen decoration
 exec swayidle -w timeout 300 'swaylock' \
  	 timeout 600 'swaymsg "output * power off"' \
@@ -56,11 +56,11 @@ bindsym $mod+Return exec footclient
 # Kill focused window
 bindsym $mod+Shift+q kill
 # Start browser
-bindsym $mod+o exec luakit -nU
+bindsym $mod+o exec dbus-launch luakit -nU
 # Start PDF viewer
 bindsym $mod+p exec zathura
 # Start mixer
-bindsym $mod+m exec footclient -a mixer pulsemixer
+bindsym $mod+s exec footclient -a mixer pulsemixer
 # Master selector key
 bindsym Shift+x exec swaymsg 'seat "seat0" cursor press button1' 
 floating_modifier $mod normal
@@ -85,13 +85,11 @@ bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2 
 bindsym $mod+3 workspace $ws3 
 bindsym $mod+4 workspace $ws4 
-bindsym $mod+5 workspace $ws5 
 # Move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2
 bindsym $mod+Shift+3 move container to workspace $ws3
 bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
 # Horizontal and vertical splits
 bindsym $mod+b splith
 bindsym $mod+v splitv
@@ -123,6 +121,8 @@ mode "capture" {
 	bindsym k exec ~/.config/sway/capture stop, mode "default"
 }
 mode "music" {
+	bindsym m exec footclient -a mpd mmtc
+	bindsym l exec mpc ls | mpc add 
 	bindsym j exec mpc next  
 	bindsym k exec mpc prev
 	bindsym r exec mpc random
