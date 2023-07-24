@@ -8,7 +8,7 @@ require("colorizer").setup {
         AARRGGBB = false, 
         rgb_fn = false, 
         hsl_fn = false, 
-        css = false, 
+        css = true, 
         css_fn = false, 
         mode = "background",
         tailwind = false, 

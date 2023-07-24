@@ -11,10 +11,12 @@ vim.opt.cursorlineopt = "number"
 vim.opt.guicursor = ""
 vim.opt.showbreak =" +++ "
 vim.opt.cmdheight = 0
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 0
-vim.opt.shiftwidth = 4
+vim.opt.showmode = false
+vim.opt.updatetime = 500
+vim.opt.wrap = false
+vim.opt.smartindent = true
 vim.opt.encoding = "utf-8"
+vim.opt.shiftwidth = 2
 
 vim.cmd[[filetype plugin indent on]]
 vim.cmd[[hi Normal guibg=NONE ctermbg=NONE]]

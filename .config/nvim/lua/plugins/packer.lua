@@ -1,20 +1,35 @@
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(function(use)
-	use 'wbthomason/packer.nvim'
-	use 'NvChad/nvim-colorizer.lua'
-	use 'nvim-lualine/lualine.nvim'
-	use 'lukas-reineke/indent-blankline.nvim'
-	use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
-	use {'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps' }
-	use {'ms-jpq/coq_nvim', branch = 'coq'}
-	use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
-	use {'nvim-treesitter/nvim-treesitter',
-	    run = function()
-	        local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-	        ts_update()
-	    end,
-	}
-	use 'neovim/nvim-lspconfig'
-	use 'lervag/vimtex'
+return require("packer").startup(function(use)
+  use "wbthomason/packer.nvim"
+  use {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+    "mfussenegger/nvim-lint"
+  }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+      ts_update()
+    end,
+  }
+  use {
+    'akinsho/bufferline.nvim',
+    tag = "v3.*",
+    requires = 'nvim-tree/nvim-web-devicons'
+  }
+  use 'nvim-tree/nvim-tree.lua'
+  use 'nvim-lualine/lualine.nvim'
+  
+  use "hrsh7th/nvim-cmp"
+  use "hrsh7th/cmp-nvim-lsp"
+  use "L3MON4D3/LuaSnip"
+  use "saadparwaiz1/cmp_luasnip"
+  use "rafamadriz/friendly-snippets"
+  
+  use 'lervag/vimtex'
+  use 'iamcco/markdown-preview.nvim'
+  use 'NvChad/nvim-colorizer.lua'
 end)
