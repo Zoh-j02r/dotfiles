@@ -1,1 +1,6 @@
 .config/nvim/plugin/
+.config/arduino/*
+!.config/arduino/arduino-cli.yaml
+.local/share/*
+!.local/share/palette	
+!.local/share/luakit/styles

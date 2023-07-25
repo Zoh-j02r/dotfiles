@@ -1,9 +1,8 @@
 board_manager:
   additional_urls: ['https://downloads.arduino.cc/packages/package_index.json','https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json']
 daemon:
-  port: "50051"
+  port: "50020"
 library:
-  # allows github lib-install
   enable_unsafe_install: true
 logging:
   file: ""
@@ -17,4 +16,4 @@ output:
 sketch:
   always_export_binaries: false
 updater:
-  enable_notification: true
+  enable_notification: false
