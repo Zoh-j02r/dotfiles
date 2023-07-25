@@ -1,27 +1,27 @@
 set default-bg "#0E0B16"
 
+set inputbar-bg "#171322"
 set inputbar-fg "#B3C4E0"
-set inputbar-bg "#211C2E"
 
-set statusbar-bg "#211C2E"
+set statusbar-bg "#171322"
 set statusbar-fg "#B3C4E0"
 set statusbar-v-padding 4
 
 set n-completion-items 9
-set completion-bg "#171322"
-set completion-fg "#B3C4E0" 
-set completion-group-bg "#0C0E15"
+set completion-bg "#0E0B16"
+set completion-fg "#6C7D9C"
+set completion-group-bg "#211C2E"
 set completion-group-fg "#F9F9F9" 
-set completion-highlight-bg "#322C45"
-set completion-highlight-fg "#6C7D9C"
+set completion-highlight-bg "#171322"
+set completion-highlight-fg "#B3C4E0"
 
 set highlight-color "#322C45"
-set highlight-fg "#6C7D9C"
+set highlight-fg "#B3C4E0"
 set highlight-active-color "#F9F9F9"
 set highlight-transparency 0.2
 
 set notification-bg "#211C2E"
-set notification-fg "#6C7D9C"
+set notification-fg "#B3C4E0"
 set notification-error-bg "#211C2E"
 set notification-error-fg "#B30039"
 set notification-warning-bg "#211C2E"
@@ -29,9 +29,9 @@ set notification-warning-fg "#E69200"
 
 set recolor-reverse-video false
 set recolor-lightcolor "#0E0B16"
-set recolor-darkcolor "#6C7D9C"
+set recolor-darkcolor "#B3C4E0"
 
-set font "Source Code Pro 13"
+set font "Source Code Pro 9"
 
 set guioptions s
 set show-directories false

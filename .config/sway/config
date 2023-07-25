@@ -1,56 +1,57 @@
 # Workspaces name
 set {
-	$ws1 "1:" 
-	$ws2 "2:󰇧"
-	$ws3 "3:󰻅"
-	$ws4 "4:󰝚"
+  $ws1 "1:" 
+  $ws2 "2:󰇧"
+  $ws3 "3:"
+  $ws4 "4:󰎄"
 }
-#Start-up applications
+# Start-up applications
 exec {
 	~/.config/sway/start
 	foot --server
 }
 
-for_window [app_id="mixer"] { 
-	floating enable 
-	resize set width 50ppt height 50ppt 
+for_window [app_id="mixer"] {
+  floating enable
+  border pixel 1
+  resize set width 60ppt height 50ppt
 }
 assign [app_id="luakit"] workspace $ws2
 assign [app_id="foot"] workspace $ws1
 assign [app_id="mpd"] workspace $ws4
 # Keyboard layout
 input * {
-	xkb_layout "br"
+  xkb_layout "br"
 }
 # Window layout
-gaps vertical 3
-gaps horizontal 3
-gaps inner 2
+gaps vertical 5
+gaps horizontal 2
+gaps inner 5
 default_border pixel 1
 default_floating_border pixel 1
 # Set borders colors
 set {
-	$bgs #6C7D9C
-	$bgi #455574
-	$bgw #FF427C
+  $bgs #211C2E
+  $bgi #121020
+  $bgw #FF427C
 } 
 client.focused $bgs $bgs $bgs $bgs  
 client.unfocused $bgi $bgi $bgi $bgi
 client.urgent $bgw $bgw $bgw $bgw 
 # Key mapping
 set {
-	$mod Mod4
-	$left h
-	$down j
-	$up k
-	$right l
+  $mod Mod4
+  $left h
+  $down j
+  $up k
+  $right l
 }
 # Set background 
 output "*" bg #0E0B16 solid_color
 # Lockscreen decoration
 exec swayidle -w timeout 300 'swaylock' \
- 	 timeout 600 'swaymsg "output * power off"' \
-	 resume 'swaymsg "output * power on"' \
+  timeout 600 'swaymsg "output * power off"' \
+  resume 'swaymsg "output * power on"' \
 # Start a terminal
 bindsym $mod+Return exec footclient
 # Kill focused window
@@ -66,10 +67,6 @@ bindsym Shift+x exec swaymsg 'seat "seat0" cursor press button1'
 floating_modifier $mod normal
 # Reload the configuration file
 bindsym $mod+Shift+c reload
-# Exit sway 
-bindsym $mod+Shift+e exec pkill yambar && swaynag -y overlay -t warning \
-	-m "Select a option"  -B 󰗼 'swaymsg exit' -B  'loginctl reboot' \
-	-B  'loginctl poweroff' && yambar \
 # Move your focus around
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
@@ -105,35 +102,40 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 # Resizing containers:
 mode "resize" {
-	bindsym $left resize shrink width 16px
-	bindsym $down resize grow height 16px
-	bindsym $up resize shrink height 16px
-	bindsym $right resize grow width 16px
-	bindsym Return mode "default"
-	bindsym Escape mode "default"
+  bindsym $left resize shrink width 16px
+  bindsym $down resize grow height 16px
+  bindsym $up resize shrink height 16px
+  bindsym $right resize grow width 16px
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 # Capturing image or video
 mode "capture" {
-	bindsym v exec ~/.config/sway/capture video region, mode "default"
-	bindsym w exec ~/.config/sway/capture video, mode "default"
-	bindsym i exec ~/.config/sway/capture image region, mode "default" 
-	bindsym l exec ~/.config/sway/capture image, mode "default" 
-	bindsym k exec ~/.config/sway/capture stop, mode "default"
+  bindsym v exec ~/.config/sway/capture video region, mode "default"
+  bindsym w exec ~/.config/sway/capture video, mode "default"
+  bindsym i exec ~/.config/sway/capture image region, mode "default"
+  bindsym l exec ~/.config/sway/capture image, mode "default"
+  bindsym k exec ~/.config/sway/capture stop, mode "default"
+  bindsym Escape mode "default"
 }
 mode "music" {
-	bindsym m exec footclient -a mpd mmtc
-	bindsym l exec mpc ls | mpc add 
-	bindsym j exec mpc next  
-	bindsym k exec mpc prev
-	bindsym r exec mpc random
-	bindsym c exec mpc consume
-	bindsym p exec mpc play
-	bindsym space exec mpc pause
-	bindsym Return mode "default"
-	bindsym Escape mode "default"
+  bindsym m exec footclient -a mpd mmtc
+  bindsym l exec mpc ls | mpc add
+  bindsym j exec mpc next
+  bindsym k exec mpc prev
+  bindsym r exec mpc random
+  bindsym c exec mpc consume
+  bindsym p exec mpc play
+  bindsym space exec mpc pause
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+mode "power" {
+  bindsym Escape mode "default"
 }
 
 bindsym $mod+r mode "resize"
 bindsym $mod+Shift+g mode "capture"
 bindsym $mod+Shift+m mode "music"
+bindsym $mod+Shift+e mode "power"
 include /etc/sway/config.d/*

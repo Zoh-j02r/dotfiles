@@ -1,6 +1,6 @@
 ignore-empty-password
 
-color=211C2E
+color=0E0B16
 
 indicator-radius=24
 indicator-thickness=8
@@ -8,22 +8,22 @@ indicator-x-position=48
 indicator-y-position=720
 
 key-hl-color=32ED4F
-bs-hl-color=B3C4E0
+bs-hl-color=6C7D9C
 
 line-color=0E0B16
 
 inside-color=10E080
-inside-clear-color=B3C4E0
+inside-clear-color=6C7D9C
 inside-ver-color=42AED5
 inside-wrong-color=FF427C
 
 ring-color=10E080
-ring-clear-color=B3C4E0
+ring-clear-color=6C7D9C
 ring-ver-color=42AED5
 ring-wrong-color=FF427C
 
-text-color=171322
-text-clear-color=171322
-text-caps-lock-color=171322
-text-ver-color=171322
-text-wrong-color=171322
+text-color=211C2E
+text-clear-color=211C2E
+text-caps-lock-color=211C2E
+text-ver-color=211C2E
+text-wrong-color=211C2E
