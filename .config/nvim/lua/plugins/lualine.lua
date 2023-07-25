@@ -2,19 +2,19 @@ local c = require('core.coloring.palette')
 
 local palette = {
   inactive = {
-    a = {fg = c.bg1, bg = c.bg2, gui = 'bold'},
-    b = {fg = c.wh1, bg = c.bg3},
-    c = {fg = c.wh1, bg = c.bg1},
+    a = {fg = c.wh1, bg = c.bl1, gui = 'bold'},
+    b = {fg = c.wh1, bg = c.bl1},
+    c = {fg = c.wh1, bg = c.bl1},
   },
   normal = {
-    a = {fg = c.bg1, bg = c.gr0, gui = 'bold'},
-    b = {fg = c.fg0, bg = c.bg2},
-    c = {fg = c.fg0, bg = c.bg1},
+    a = {fg = c.bl1, bg = c.gr0, gui = 'bold'},
+    b = {fg = c.wh1, bg = c.bl0},
+    c = {fg = c.wh1, bg = c.bl1},
   },
-  visual = {a = {fg = c.bg0, bg = c.mg0, gui = 'bold'}},
-  replace = {a = {fg = c.bg0, bg = c.rd0, gui = 'bold'}},
-  insert = {a = {fg = c.bg0, bg = c.bu0, gui = 'bold'}},
-  command = {a = {fg = c.bg0, bg = c.yw0, gui = 'bold'}},
+  visual = {a = {fg = c.bl1, bg = c.mg0, gui = 'bold'}},
+  replace = {a = {fg = c.bl1, bg = c.rd0, gui = 'bold'}},
+  insert = {a = {fg = c.bl1, bg = c.bu0, gui = 'bold'}},
+  command = {a = {fg = c.bl1, bg = c.yw0, gui = 'bold'}},
 }
 
 require("lualine").setup{
