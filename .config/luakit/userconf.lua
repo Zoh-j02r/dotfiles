@@ -1,35 +1,41 @@
+-- TODO: add custom module to use instead of viewpdf
+-- TODO: add style to error_page and document_page
+-- TODO: Find a way to store this string as a html file
+-- TODO: reduce the amounts of !important's
+-- TODO: find a way to fetch video source instead of uri
+-- TODO: set color only on chrome, change all _chrome files to not require colors
+
 local settings = require("settings")
-local c = require('palette')
-local chrome = require('chrome')
+local c = require("palette")
+local chrome = require("chrome")
 local modes = require "modes"
 local downloads = require('downloads')
-local adblock_chrome = require('adblock_chrome')
+local adblock_chrome = require("adblock_chrome")
 local engines = settings.window.search_engines
 
-engines.datasheet = "https://www.alldatasheet.com/view.jsp?Searchword=%s"
+engines.datasheet = "https://octopart.com/search?q=%s"
+engines.soundcloud = "https://soundcloud.com/search?q=%s"
+engines.datasheet = "https://octopart.com/search?q=%s"
+engines.inv = "https://vid.puffyan.us/search?q=%s"
 
 downloads.default_dir = os.getenv("HOME") .. "/download"
-	-- SOLVE: add custom module to use instead of viewpdf
-	-- SOLVE: add style to error_page and document_page
-	-- SOLVE: Find a way to store this string as a html file
-	-- SOLVE: reduce the amounts of !important's
-	-- WHAT A MESS
 
 local video_cmd_fmt = "yt-dlp -f best -P '/home/immr/document/video' %s "
-modes.add_binds("ex-follow", {
-  { "m", "Downloads the video source using yt-dlp",
-      function (w)
-          w:set_mode("follow", {
-              prompt = "Select source", selector = "uri", evaluator = "uri",
-              func = function (uri)
-                  assert(type(uri) == "string")
-                  luakit.spawn(string.format(video_cmd_fmt, uri))
-                  w:notify("Donwloaded with success")
-              end
-          })
-      end },
-})
 
+modes.add_binds("ex-follow", {
+  { "m", "Downloads the video source",
+  function (w)
+    w:set_mode("follow", {
+      prompt = "Select video source", selector = "uri", evaluator = "uri",
+      func = function (uri)
+        assert(type(uri) == "string")
+        luakit.spawn(string.format(video_cmd_fmt, uri))
+        w:notify("Started downloading")
+      end
+    })
+  end
+  },
+})
 
 chrome.stylesheet = [===[
     * {
@@ -201,7 +207,6 @@ chrome.stylesheet = [===[
     }
 ]===]
 
--- TODO: set color only on chrome, change all _chrome files to not require colors
 --local f = assert(io.open("/home/immr/.config/luakit/chrome/adblock.css","rb"))
 --local content = f:read("*all")
 --f:close()
