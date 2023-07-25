@@ -1,16 +1,16 @@
-text: &text Source Code Pro:size=14
-icon: &icon Overpass Nerd Font:style=Solid:size=16
+text: &text Source Code Pro:size=13
+icon: &icon Overpass Nerd Font:style=Solid:size=15
 bar:
-  height: 29 
+  height: 25 
   location: top
   spacing: 6
   margin: 5
   font: *text 
   foreground: B3C4E0FF
-  background: 0E0B16FF
+  background: 171322FF
   border:
     bottom-width: 1
-    color: 6C7D9CFF
+    color: 211C2EFF
   left:
     - i3:
         sort: ascending
@@ -26,11 +26,26 @@ bar:
                 state == focused:   {string: {<<: [*default, *focused]}}
                 state == unfocused: {string: {<<: *default}}
                 state == invisible: {string: {<<: *default}}
+          current:
+            map:
+              conditions:
+                mode == "default":
+                  - {empty: {}}
+                mode == "resize":
+                  - string: {left-margin: 5, text: 󰩨, font: *icon, foreground: E69200FF}
+                mode == "capture":
+                  - string: {left-margin: 5, text: 󰻃, font: *icon, foreground: 42AED5FF}
+                mode == "music":
+                  - string: {left-margin: 5, text: 󰗅, font: *icon, foreground: 10E080FF}
+                mode == "power":
+                  - string: {left-margin: 5, on-click: "swaymsg exit", text: 󰗼, font: *icon, foreground: FF427CFF}
+                  - string: {left-margin: 10, on-click: "loginctl reboot", text:  , font: *icon, foreground: FF427CFF}
+                  - string: {left-margin: 10, on-click: "loginctl poweroff", text:   , font: *icon, foreground: FF427CFF}
     - mpd:
         host: 127.0.0.1
         port: 6600
         content:
-          - string: {text: "{title} {pos}/{end}",right-margin: 5}
+          - string: {text: "{title} {pos}/{end}",left-margin: 5}
   right:
     - network:
         name: wlp1s0
@@ -98,7 +113,7 @@ bar:
                 - string: {text: 󱩔 , font: *icon}
                 - string: {text: 󱩕 , font: *icon}
                 - string: {text: 󱩖 , font: *icon}
-                - string: {text: 󰛨 , font: *icon}
+                - string: {text: 󰛨 , font: *icon, foreground: F9F9F9FF}
     - battery:
         name: BAT0
         poll-interval: 500
@@ -127,13 +142,13 @@ bar:
                 - string: {text:  , font: *icon}
               state == full:
                 - string: {text: "{capacity}%",right-margin: 5}
-                - string: {text:  , font: *icon}
+                - string: {text:  , font: *icon, foreground: 32ED4FFF}
               state == "not charging":
                 <<: *discharging
     - clock:
         time-format: "%H:%M"
         content:
+          - string: {text: "{time}",margin: 5}
+          - string: {text:  , font: *icon,right-margin: 6}
           - string: {text: "{date}",right-margin: 5}
           - string: {text:  , font: *icon,right-margin: 12}
-          - string: {text: "{time}",right-margin: 5}
-          - string: {text:  , font: *icon,right-margin: 6}
