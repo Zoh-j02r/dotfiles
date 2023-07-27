@@ -80,19 +80,19 @@ Config (
 		])),
 	      If(TitleExist,
 		Parts([Styled([Bg(DarkGray)],Parts([Text("   "),CurrentTitle,Text("   ")])),
+		  Parts([
 		  If(ArtistExist,
 		    Parts([Styled([Bg(DarkGray)],
-		      Parts([Text("   "),
-		      CurrentArtist,Text("   ")])),
+		      Parts([Text("   "), CurrentArtist, Text("   ")])),
 		      If(AlbumExist,
-			Parts([Styled([Bg(DarkGray)],
-			  Parts([CurrentAlbum,
-			    Text("                                                                                                                                                                                                        ")
-			  ])
-			)])
+			Parts([Styled([Bg(DarkGray)], CurrentAlbum)])
 		      ),
+		      Styled([Bg(DarkGray)],
+			Text("                                                                                                                                                                                                        ")
+		      )
 		    ])
-		  ),
+		  )
+		  ]),
 		]),
 	      ),
 	    ])),
