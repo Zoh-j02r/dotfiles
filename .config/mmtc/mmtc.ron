@@ -1,104 +1,120 @@
-Config(
-	address: "127.0.0.1:6600",
-	clear_query_on_play: false,
-	cycle: false,
-	jump_lines: 24,
-	seek_secs: 5.0,
-    	search_fields: SearchFields(
-		file: false,
-		title: true,
-		artist: true,
-        	album: true,
+Config (
+  address: "127.0.0.1:6600",
+  clear_query_on_play: false,
+  cycle: false,
+  jump_lines: 24,
+  seek_secs: 5.0,
+  search_fields: SearchFields(
+    file: false,
+    title: true,
+    artist: true,
+    album: true,
+  ),
+  ups: 1.0,
+  layout: Rows([
+    Fixed(1,
+      Columns([
+	Ratio(9, Textbox(Styled([Italic,Bold,Fg(White)], Text("Title")))),
+	Ratio(1, Textbox(Text(" "))),
+	Ratio(4, Textbox(Styled([Italic,Bold,Fg(White)], Text("Artist")))),
+	Ratio(1, Textbox(Text(" "))),
+	Ratio(6, Textbox(Styled([Italic,Bold,Fg(White)], Text("Album")))),
+	Ratio(1, Textbox(Text(" "))),
+	Ratio(2, Textbox(Styled([Italic,Bold,Fg(White)], Text("Time")))),
+      ])),
+      Min(0, Queue([
+	Column(
+	  item: Ratio(9,
+	    If(QueueCurrent,
+	      Styled([Italic], If(QueueTitleExist, QueueTitle, QueueFile)),
+	      If(QueueTitleExist, QueueTitle, QueueFile),
+	    )
+	  ),
+	  style: [Fg(White)],
+	  selected_style: [Bg(DarkGray)],
 	),
-	ups: 1.0,
-	layout: Rows([
-		Fixed(1, Columns([
-	    		Ratio(11, Textbox(Styled([Italic], Text("◆ Title")))),
-	    	    	Ratio(2, Textbox(Styled([Italic], Text(" ")))),
-	    	    	Ratio(4, Textbox(Styled([Italic], Text("◆ Artist")))),
-	    	    	Ratio(2, Textbox(Styled([Italic], Text(" ")))),
-	    	    	Ratio(6, Textbox(Styled([Italic], Text("◆ Album")))),
-	    	    	Ratio(2, Textbox(Styled([Italic], Text("◆ Time")))),
-	    	])),
-	    	Min(0, Queue([
-	    		Column(
-	    	    		item: Ratio(11, If(QueueCurrent,
-	    	    	    	    Styled([Italic], If(QueueTitleExist, QueueTitle, QueueFile)),
-	    	    	    	    If(QueueTitleExist, QueueTitle, QueueFile),
-	    	    	    	)),
-	    	    	    	style: [Fg(Indexed(147))],
-	    	    	    	selected_style: [Bg(Black)],
-	    	    	),
-	    	    	Column(
-	    	    		item: Ratio(2, Styled([Bold],Text(" "),
-	    	    	    	)),
-	    	    	    	style: [Fg(Indexed(147))],
-	    	    	    	selected_style: [Bg(Black)],
-	    	    	),
-	    	    	Column(
-	    	    		item: Ratio(4, If(QueueCurrent,
-	    	    	    	    Styled([Italic],QueueArtist),
-	    	    	    	    QueueArtist,
-	    	    	    	)),
-	    	    	    	style: [Fg(Indexed(147))],
-	    	    	    	selected_style: [Bg(Black)],
-	    	    	),
-	    	    	Column(
-	    	    		item: Ratio(2, Styled([Bold],Text(" "),
-	    	    	    	)),
-	    	    	    	style: [Fg(Indexed(147))],
-	    	    	    	selected_style: [Bg(Black)],
-	    	    	),
-	    	    	Column(
-	    	    		item: Ratio(6, If(QueueCurrent,
-	    	    	    	    Styled([Italic], QueueAlbum),
-	    	    	    	    QueueAlbum,
-	    	    	    	)),
-	    	    	    	style: [Fg(Indexed(147))],
-	    	    	    	selected_style: [Bg(Black)],
-	    	    	),
-	    	    	Column(
-	    	    		item: Ratio(2, If(QueueCurrent,
-	    	    	    	    Styled([Italic], QueueDuration),
-	    	    	    	    QueueDuration,
-	    	    	    	)),
-	    	    	    	style: [Fg(Indexed(147))],
-	    	    	    	selected_style: [Bg(Black)],
-	    	    	),
-	    	])),
-	    	Fixed(1, Columns([
-			Min(0, Textbox(
-	    	        	If(Searching,
-	    		    	Parts([
-	    		        	Styled([Fg(Indexed(113))], Text("/")),
-	    		        	Styled([Fg(Indexed(185))], Query),
-	    		    	]),
-	    		    	If(Not(Stopped), Parts([
-	    		        	Styled([Bg(Green), Fg(Black), Bold], Parts([
-	    		            	Text(" "), 
-	    		            	CurrentElapsed,
-	    		            	Text("/"),
-	    		            	CurrentDuration,
-	    		            	Text(" "),
-	    		        ])),
-	    		        If(TitleExist,Parts([Styled([Bg(Black)],Parts([Text("   "),CurrentTitle,Text("   ")])),
-	    		        	If(ArtistExist, Parts([Styled([Bg(Black)],Parts([Text("   "),CurrentArtist,Text("   ")])),
-	    	        	        	If(AlbumExist, Parts([Styled([Bg(Black)],Parts([CurrentAlbum,Text("                                                                                                      ")]))])),
-	    	    			])),
-	    		        ]),
-	    			Styled([Fg(Indexed(185))], CurrentFile),
-	    		        ),
-	    		    	])),
-	    			),
-	    	    	)),
-            		Fixed(6 , TextboxC(Styled([Bg(Black)], Parts([
-			    If(TitleExist,Text("   ")),
-			    If(Repeat, Text("󰑖")),
-            		    If(Random, Text("󰇎")),
-            		    If(Single, Text("󰑘"), If(Oneshot, Text("!"))),
-            		    If(Consume, Text("󰐓")),
-			    If(TitleExist,Text("   ")),
-            		])))),
-	    	])),
-	]),
+	Column( item: Ratio(1,Text("")), style: [], selected_style: [Bg(DarkGray)]),
+	Column(
+	  item: Ratio(4,
+	    If(QueueCurrent, Styled([Italic],QueueArtist), QueueArtist)
+	  ),
+	  style: [Fg(White)],
+	  selected_style: [Bg(DarkGray)],
+	),
+	Column(item: Ratio(1,Text("")),style: [], selected_style: [Bg(DarkGray)]),
+	Column(
+	  item: Ratio(6, If(QueueCurrent,
+	    Styled([Italic], QueueAlbum),
+	    QueueAlbum,
+	  )),
+	  style: [Fg(White)],
+	  selected_style: [Bg(DarkGray)],
+	),
+
+	Column(item: Ratio(1,Text("")), style: [], selected_style: [Bg(DarkGray)]),
+	Column(
+	  item: Ratio(2,
+	    If(QueueCurrent, Styled([Italic], QueueDuration), QueueDuration)
+	  ),
+	  style: [Fg(White)],
+	  selected_style: [Bg(DarkGray)],
+	),
+      ])),
+      Fixed(1, Columns([
+	Min(0, Textbox(
+	  If(Searching,
+	    Parts([
+	      Styled([Bg(DarkGray)], Text("/")),
+	      Styled([Bg(DarkGray)], Query),
+	      Styled([Bg(DarkGray)],
+		Text("                                                                                                                                                                                                        ")
+	      ),
+	    ]),
+	    If(Not(Stopped), Parts([
+		Styled([Bg(Green), Fg(DarkGray), Bold], Parts([
+		  Text(" "),
+		  CurrentElapsed,
+		  Text("/"),
+		  CurrentDuration,
+		  Text(" "),
+		])),
+	      If(TitleExist,
+		Parts([Styled([Bg(DarkGray)],Parts([Text("   "),CurrentTitle,Text("   ")])),
+		  If(ArtistExist,
+		    Parts([Styled([Bg(DarkGray)],
+		      Parts([Text("   "),
+		      CurrentArtist,Text("   ")])),
+		      If(AlbumExist,
+			Parts([Styled([Bg(DarkGray)],
+			  Parts([CurrentAlbum,
+			    Text("                                                                                                                                                                                                        ")
+			  ])
+			)])
+		      ),
+		    ])
+		  ),
+		]),
+	      ),
+	    ])),
+	  ),
+	)),
+	Fixed(6 ,
+	  TextboxC(Styled([Bg(DarkGray)],
+	    Parts([
+	      If(TitleExist,
+		Parts([
+		  If(Repeat, Text(" 󰑖 ")),
+		  If(Random, Text(" 󰇎 ")),
+		  If(Single,
+		    Text(" 󰑘 "),
+		    If(Oneshot, Text("!"))
+		  ),
+		  If(Consume, Text(" 󰐓 ")),
+		])
+	      ),
+	    ])
+	  ))
+	),
+      ])),
+  ]),
 )
