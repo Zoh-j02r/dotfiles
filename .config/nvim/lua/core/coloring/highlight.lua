@@ -79,7 +79,7 @@ hl.common = {
 }
 
 hl.syntax = {
-  Comment = {fg = c.bg2,fmt = "italic"},
+  Comment = {fg = c.fg2,fmt = "italic"},
   Constant = {fg = c.gr0},
   String = {fg = c.gr0},
   Character = {fg = c.gr0},

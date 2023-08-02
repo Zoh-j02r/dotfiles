@@ -6,7 +6,8 @@ return require("packer").startup(function(use)
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
-    "mfussenegger/nvim-lint"
+    "mfussenegger/nvim-lint",
+    "mhartington/formatter.nvim"
   }
   use {
     'nvim-treesitter/nvim-treesitter',
