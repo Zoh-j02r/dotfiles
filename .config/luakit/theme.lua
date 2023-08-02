@@ -2,7 +2,7 @@ local c = require('palette')
 local theme = {}
 
 -- Default settings
-theme.font = "14px Source Code Pro"
+theme.font = "12px Fira Code"
 theme.fg = c.wh1
 theme.bg = c.bg0
 

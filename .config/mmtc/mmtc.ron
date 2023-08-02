@@ -14,17 +14,15 @@ Config (
   layout: Rows([
     Fixed(1,
       Columns([
-	Ratio(9, Textbox(Styled([Italic,Bold,Fg(White)], Text("Title")))),
-	Ratio(1, Textbox(Text(" "))),
-	Ratio(4, Textbox(Styled([Italic,Bold,Fg(White)], Text("Artist")))),
-	Ratio(1, Textbox(Text(" "))),
+	Ratio(7, Textbox(Styled([Italic,Bold,Fg(White)], Text("Title")))),
+	Ratio(3, Textbox(Styled([Italic,Bold,Fg(White)], Text("Artist")))),
 	Ratio(6, Textbox(Styled([Italic,Bold,Fg(White)], Text("Album")))),
 	Ratio(1, Textbox(Text(" "))),
-	Ratio(2, Textbox(Styled([Italic,Bold,Fg(White)], Text("Time")))),
+	Ratio(1, Textbox(Styled([Italic,Bold,Fg(White)], Text("Time")))),
       ])),
       Min(0, Queue([
 	Column(
-	  item: Ratio(9,
+	  item: Ratio(7,
 	    If(QueueCurrent,
 	      Styled([Italic], If(QueueTitleExist, QueueTitle, QueueFile)),
 	      If(QueueTitleExist, QueueTitle, QueueFile),
@@ -33,15 +31,13 @@ Config (
 	  style: [Fg(White)],
 	  selected_style: [Bg(DarkGray)],
 	),
-	Column( item: Ratio(1,Text("")), style: [], selected_style: [Bg(DarkGray)]),
 	Column(
-	  item: Ratio(4,
+	  item: Ratio(3,
 	    If(QueueCurrent, Styled([Italic],QueueArtist), QueueArtist)
 	  ),
 	  style: [Fg(White)],
 	  selected_style: [Bg(DarkGray)],
 	),
-	Column(item: Ratio(1,Text("")),style: [], selected_style: [Bg(DarkGray)]),
 	Column(
 	  item: Ratio(6, If(QueueCurrent,
 	    Styled([Italic], QueueAlbum),
@@ -53,7 +49,7 @@ Config (
 
 	Column(item: Ratio(1,Text("")), style: [], selected_style: [Bg(DarkGray)]),
 	Column(
-	  item: Ratio(2,
+	  item: Ratio(1,
 	    If(QueueCurrent, Styled([Italic], QueueDuration), QueueDuration)
 	  ),
 	  style: [Fg(White)],
@@ -106,8 +102,8 @@ Config (
 		  If(Repeat, Text(" 󰑖 ")),
 		  If(Random, Text(" 󰇎 ")),
 		  If(Single,
-		    Text(" 󰑘 "),
-		    If(Oneshot, Text("!"))
+		    If(Oneshot, Text("!")),
+		    Text(" 󰑘 ")
 		  ),
 		  If(Consume, Text(" 󰐓 ")),
 		])

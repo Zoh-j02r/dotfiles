@@ -22,7 +22,7 @@ require "unique_instance"
 
 -- Set the number of web processes to use. A value of 0 means 'no limit'. This
 -- has no effect since WebKit 2.26
-luakit.process_limit = 2
+luakit.process_limit = 0
 -- Set the cookie storage location
 soup.cookies_storage = luakit.data_dir .. "/cookies.db"
 
@@ -30,16 +30,13 @@ soup.cookies_storage = luakit.data_dir .. "/cookies.db"
 local lousy = require "lousy"
 
 -- Load users theme
--- ("$XDG_CONFIG_HOME/luakit/theme.lua" or "/etc/xdg/luakit/theme.lua")
 lousy.theme.init(lousy.util.find_config("theme.lua"))
 assert(lousy.theme.get(), "failed to load theme")
 
 -- Load users window class
--- ("$XDG_CONFIG_HOME/luakit/window.lua" or "/etc/xdg/luakit/window.lua")
 local window = require "window"
 
 -- Load users webview class
--- ("$XDG_CONFIG_HOME/luakit/webview.lua" or "/etc/xdg/luakit/webview.lua")
 local webview = require "webview"
 
 -- Add luakit;//log/ chrome page
@@ -101,13 +98,6 @@ local tabhistory = require "tabhistory"
 
 -- Add command to list open tabs
 local tabmenu = require "tabmenu"
-
--- Allow for tabs to be grouped together.
--- One tab group is displayed in a window at any given time.
---local tabgroups = require "tabgroups"
-
--- Add gopher protocol support (this module needs luasocket)
--- local gopher = require "gopher"
 
 -- Add greasemonkey-like javascript userscript support
 local userscripts = require "userscripts"

@@ -5,17 +5,19 @@
 -- TODO: find a way to fetch video source instead of uri
 -- TODO: set color only on chrome, change all _chrome files to not require colors
 
-local settings = require("settings")
-local c = require("palette")
-local chrome = require("chrome")
+local settings = require "settings" 
+local c = require "palette"
+local chrome = require "chrome"
 local modes = require "modes"
-local downloads = require('downloads')
-local adblock_chrome = require("adblock_chrome")
+local downloads = require "downloads"
+local adblock_chrome = require "adblock_chrome"
 local engines = settings.window.search_engines
+local editor = require "editor"
+local select = require "select"
 
-engines.datasheet = "https://octopart.com/search?q=%s"
-engines.soundcloud = "https://soundcloud.com/search?q=%s"
-engines.datasheet = "https://octopart.com/search?q=%s"
+engines.default = "https://www.alltheinternet.com/?q=%s"
+engines.sd = "https://soundcloud.com/search?q=%s"
+engines.dt = "https://octopart.com/search?q=%s"
 engines.inv = "https://vid.puffyan.us/search?q=%s"
 
 downloads.default_dir = os.getenv("HOME") .. "/download"
@@ -36,6 +38,12 @@ modes.add_binds("ex-follow", {
   end
   },
 })
+
+editor.editor_cmd = "footclient nvim {file} +{line}"
+
+select.label_maker = function (l)
+  return l.sort(l.reverse(l.charset("zxcvbnm")))
+end
 
 chrome.stylesheet = [===[
     * {
