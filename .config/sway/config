@@ -7,8 +7,11 @@ set {
 }
 # Start-up applications
 exec {
-	~/.config/sway/start
-	foot --server
+  dbus-run-session pipewire
+  dbus-run-session wireplumber
+  foot --server
+  mpd
+  yambar
 }
 
 for_window [app_id="mixer"] {
@@ -57,7 +60,7 @@ bindsym $mod+Return exec footclient
 # Kill focused window
 bindsym $mod+Shift+q kill
 # Start browser
-bindsym $mod+o exec dbus-launch luakit -nU
+bindsym $mod+o exec luakit -nU
 # Start PDF viewer
 bindsym $mod+p exec zathura
 # Start mixer

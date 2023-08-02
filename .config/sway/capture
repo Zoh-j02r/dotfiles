@@ -1,5 +1,5 @@
 #!/bin/bash
-mo:de_arg(){
+mode_arg(){
   if [ -z "$1" ]; then
     region=''
   elif [ "$1" == 'region' ]; then
